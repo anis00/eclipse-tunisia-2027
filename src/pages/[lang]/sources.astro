@@ -1,0 +1,220 @@
+---
+import Base from '../../layouts/Base.astro';
+import { LANGS, href, type Lang } from '../../i18n/config.ts';
+import { t } from '../../i18n/ui.ts';
+import { SOURCES } from '../../data/sources.ts';
+import { ADOPTED_DELTA_T } from '../../lib/eclipse/index.ts';
+import { cityById } from '../../lib/data.ts';
+import { crossComparison, nasaComparison } from '../../lib/validation.ts';
+import { formatDate, formatDuration, formatNumber } from '../../lib/format.ts';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const d = t(lang);
+const nasa = nasaComparison();
+const cross = crossComparison();
+const n = (v: number, digits = 1) => formatNumber(v, lang, digits);
+const sec = (v: number | null) => (v === null ? '—' : `${v > 0 ? '+' : ''}${n(v, 1)}`);
+const maxNasaDur = Math.max(...nasa.map((r) => Math.abs(r.engineDuration - r.nasaDuration)));
+const maxNasaKm = Math.max(...nasa.flatMap((r) => [Math.abs(r.northKm), Math.abs(r.southKm)]));
+
+const C = {
+  en: {
+    title: 'Sources, methods and scientific validation',
+    description: 'Data sources, licences, computation method and validation of the eclipse predictions published on Eclipse in Tunisia 2027, with the comparison tables against NASA and an independent library.',
+    h1: 'Sources and methods',
+    lead: 'Where the data come from, how the predictions are computed, how they were checked and what their limits are.',
+    methodTitle: 'Computation method',
+    method: [
+      `Local circumstances are computed in the browser and at build time from NASA's polynomial Besselian elements, with the method of the Explanatory Supplement to the Astronomical Almanac (1992) and of J. Meeus (Elements of Solar Eclipses, 1989). The instants of contact are found by root finding with a precision better than 0.01 s; the maximum by Newton iteration.`,
+      `ΔT = TT − UT is set to ${n(ADOPTED_DELTA_T, 1)} s (measured value about 69.1 s in 2025, expected to remain within about ±1 s in 2027). NASA used 76.0 s. A 1 s error on ΔT shifts the path by about 0.4 km in longitude and changes local times by less than 1 s.`,
+      'Coordinates are geodetic WGS 84 (EPSG:4326). The observer is placed at sea level. The Sun’s altitude is geometric (without refraction, which is below 1′ at these altitudes). Times are given in UTC and in Tunisian time (UTC+1, no daylight saving time).',
+      'The path of totality, the central line and the isolines on the map are computed from the same elements, meridian by meridian (every 0.02° of longitude over Tunisia), so the map, the calculator and the tables are consistent with one another.',
+      'Magnitude is the fraction of the Sun’s diameter covered by the Moon at maximum; obscuration is the fraction of the Sun’s area covered. For a partial eclipse the displayed values are truncated, never rounded up, so that a very deep partial eclipse can never appear as 100 %.',
+    ],
+    nasaTitle: 'Validation 1 — comparison with NASA’s path table',
+    nasaIntro: `For each line of NASA’s table over Tunisia and its surroundings, the engine (with NASA’s ΔT of 76 s) computes the duration on NASA’s central-line point and the latitude of the limits on NASA’s meridians. Largest differences: ${n(maxNasaDur, 2)} s on the duration and ${n(maxNasaKm, 2)} km on the limits (NASA’s coordinates are rounded to 0.1′ ≈ 0.18 km).`,
+    nasaCols: ['UT', 'Central line', 'Duration NASA', 'Duration engine', 'Δ north limit (km)', 'Δ south limit (km)'],
+    crossTitle: 'Validation 2 — comparison with an independent library',
+    crossIntro: `Astronomy Engine (D. Cross) uses its own ephemerides. With the same ΔT (${n(ADOPTED_DELTA_T, 1)} s), the differences below are engine − Astronomy Engine, in seconds. The partial-phase contacts and the maximum agree within about 2–3 s. For totality, the two engines agree on the northern side of the path (Kairouan, Mahdia: same durations), but Astronomy Engine places the southern limit about 2–4 km further south: its totality is longer in the south (Gabès, Djerba, Tozeur) and it classifies as total two places that are just outside NASA’s path (Kébili 3 km and Matmata 2 km outside). This is consistent with its larger lunar radius combined with small differences in the lunar ephemeris. It illustrates the real uncertainty near the limits: this site flags every location within 5 km of a limit. These differences are documented rather than hidden.`,
+    crossCols: ['Town', 'Engine', 'Astronomy Engine', 'Limit (km)', 'C1', 'C2', 'Max', 'C3', 'C4', 'Totality engine', 'Totality AE'],
+    secondaryTitle: 'Validation 3 — published values',
+    secondary: 'Durations published for Tunisian towns by an independent eclipse guide (nationaleclipse.com, method not documented): Sfax 5 min 39 s, Sidi Bouzid 5 min 31 s, Gafsa about 5 min 10 s, Gabès about 4 min 08 s, El Jem 4 min 25 s, Kairouan about 2 min 45 s. The values of this site differ by 0 to 4 s, the largest differences being near the limits.',
+    limitsTitle: 'Known limitations',
+    limits: [
+      'Lunar limb profile: mountains and valleys on the edge of the Moon shift the limits by up to 1–2 km and change durations near the limits by several seconds. Within about 5 km of a limit, results are flagged.',
+      'Elevation: computations at sea level. At 500 m altitude, the limits move by a few hundred metres; the effect on times is below one second.',
+      'Towns are represented by a single point (town centre).',
+      'ΔT for 2027 is an estimate (±1 s).',
+      'The climate statistics come from a model reanalysis (ERA5) and do not replace observations or forecasts.',
+    ],
+    regTitle: 'Source register',
+    regCols: ['Organisation', 'Document', 'Use', 'Limits', 'Licence', 'Consulted'],
+    code: 'The source code, the data files and the validation scripts are delivered with the project (docs/ folder).',
+  },
+  fr: {
+    title: 'Sources, méthodes et validation scientifique',
+    description: 'Sources des données, licences, méthode de calcul et validation des prédictions publiées sur Eclipse in Tunisia 2027, avec les tableaux de comparaison avec la NASA et une bibliothèque indépendante.',
+    h1: 'Sources et méthodes',
+    lead: 'D’où viennent les données, comment les prédictions sont calculées, comment elles ont été vérifiées et quelles sont leurs limites.',
+    methodTitle: 'Méthode de calcul',
+    method: [
+      `Les circonstances locales sont calculées dans le navigateur et lors de la construction du site à partir des éléments de Bessel polynomiaux de la NASA, selon la méthode de l’Explanatory Supplement to the Astronomical Almanac (1992) et de J. Meeus (Elements of Solar Eclipses, 1989). Les instants de contact sont obtenus par recherche de racines avec une précision meilleure que 0,01 s ; le maximum par itération de Newton.`,
+      `ΔT = TT − UT est fixé à ${n(ADOPTED_DELTA_T, 1)} s (valeur mesurée d’environ 69,1 s en 2025, qui devrait rester à environ ±1 s près en 2027). La NASA utilisait 76,0 s. Une erreur de 1 s sur ΔT décale la trajectoire d’environ 0,4 km en longitude et modifie les horaires locaux de moins d’une seconde.`,
+      'Les coordonnées sont géodésiques WGS 84 (EPSG:4326). L’observateur est placé au niveau de la mer. La hauteur du Soleil est géométrique (sans réfraction, inférieure à 1′ à ces hauteurs). Les horaires sont donnés en UTC et en heure tunisienne (UTC+1, sans heure d’été).',
+      'La bande de totalité, la ligne centrale et les isolignes de la carte sont calculées à partir des mêmes éléments, méridien par méridien (tous les 0,02° de longitude sur la Tunisie) : la carte, le calculateur et les tableaux sont donc cohérents entre eux.',
+      'La magnitude est la fraction du diamètre du Soleil couverte par la Lune au maximum ; l’obscuration est la fraction de la surface du Soleil couverte. Pour une éclipse partielle, les valeurs affichées sont tronquées, jamais arrondies au supérieur, afin qu’une éclipse partielle très profonde ne puisse jamais apparaître comme 100 %.',
+    ],
+    nasaTitle: 'Validation 1 — comparaison avec la table de trajectoire de la NASA',
+    nasaIntro: `Pour chaque ligne de la table de la NASA sur la Tunisie et ses environs, le moteur (avec le ΔT de la NASA, 76 s) calcule la durée au point de la ligne centrale de la NASA et la latitude des limites sur les méridiens de la NASA. Écarts maximaux : ${n(maxNasaDur, 2)} s sur la durée et ${n(maxNasaKm, 2)} km sur les limites (les coordonnées de la NASA sont arrondies à 0,1′ ≈ 0,18 km).`,
+    nasaCols: ['TU', 'Ligne centrale', 'Durée NASA', 'Durée moteur', 'Δ limite nord (km)', 'Δ limite sud (km)'],
+    crossTitle: 'Validation 2 — comparaison avec une bibliothèque indépendante',
+    crossIntro: `Astronomy Engine (D. Cross) utilise ses propres éphémérides. Avec le même ΔT (${n(ADOPTED_DELTA_T, 1)} s), les écarts ci-dessous sont moteur − Astronomy Engine, en secondes. Les contacts de la phase partielle et le maximum concordent à environ 2 à 3 s près. Pour la totalité, les deux moteurs concordent sur le côté nord de la bande (Kairouan, Mahdia : mêmes durées), mais Astronomy Engine place la limite sud environ 2 à 4 km plus au sud : sa totalité est plus longue dans le sud (Gabès, Djerba, Tozeur) et il classe en totalité deux lieux situés juste hors de la bande de la NASA (Kébili à 3 km et Matmata à 2 km à l’extérieur). Cela s’explique par son rayon lunaire plus grand combiné à de petites différences d’éphémérides lunaires. Cette comparaison illustre l’incertitude réelle près des limites : ce site signale tout lieu situé à moins de 5 km d’une limite. Ces différences sont documentées plutôt que masquées.`,
+    crossCols: ['Ville', 'Moteur', 'Astronomy Engine', 'Limite (km)', 'C1', 'C2', 'Max', 'C3', 'C4', 'Totalité moteur', 'Totalité AE'],
+    secondaryTitle: 'Validation 3 — valeurs publiées',
+    secondary: 'Durées publiées pour des villes tunisiennes par un guide indépendant (nationaleclipse.com, méthode non documentée) : Sfax 5 min 39 s, Sidi Bouzid 5 min 31 s, Gafsa environ 5 min 10 s, Gabès environ 4 min 08 s, El Jem 4 min 25 s, Kairouan environ 2 min 45 s. Les valeurs de ce site s’en écartent de 0 à 4 s, les plus grands écarts étant près des limites.',
+    limitsTitle: 'Limites connues',
+    limits: [
+      'Profil du limbe lunaire : les montagnes et vallées du bord de la Lune déplacent les limites de 1 à 2 km et modifient de plusieurs secondes les durées près des limites. À moins de 5 km environ d’une limite, les résultats sont signalés.',
+      'Altitude : calculs au niveau de la mer. À 500 m d’altitude, les limites se déplacent de quelques centaines de mètres ; l’effet sur les horaires est inférieur à une seconde.',
+      'Les villes sont représentées par un seul point (centre-ville).',
+      'Le ΔT de 2027 est une estimation (±1 s).',
+      'Les statistiques climatiques proviennent d’une réanalyse de modèle (ERA5) et ne remplacent ni les observations ni les prévisions.',
+    ],
+    regTitle: 'Registre des sources',
+    regCols: ['Organisme', 'Document', 'Utilisation', 'Limites', 'Licence', 'Consulté le'],
+    code: 'Le code source, les fichiers de données et les scripts de validation sont livrés avec le projet (dossier docs/).',
+  },
+  ar: {
+    title: 'المصادر والمنهجية والتحقق العلمي',
+    description: 'مصادر المعطيات وتراخيصها، وطريقة الحساب، والتحقق من تنبؤات الكسوف المنشورة على Eclipse in Tunisia 2027، مع جداول المقارنة مع ناسا ومع مكتبة مستقلة.',
+    h1: 'المصادر والمنهجية',
+    lead: 'من أين تأتي المعطيات، وكيف تُحسب التنبؤات، وكيف تم التحقق منها، وما هي حدودها.',
+    methodTitle: 'طريقة الحساب',
+    method: [
+      'تُحسب الظروف المحلية داخل المتصفح وعند بناء الموقع انطلاقًا من عناصر بيسل متعددة الحدود الصادرة عن ناسا، وفق طريقة الملحق التفسيري للتقويم الفلكي (1992) وطريقة ج. ميوس (عناصر كسوف الشمس، 1989). تُحدَّد لحظات التماس بالبحث عن الجذور بدقة أفضل من 0.01 ثانية، والذروة بطريقة نيوتن التكرارية.',
+      `قيمة ΔT = TT − UT مضبوطة على ${n(ADOPTED_DELTA_T, 1)} ثانية (القيمة المقيسة حوالي 69.1 ثانية سنة 2025، ويُتوقع أن تبقى في حدود ±1 ثانية تقريبًا سنة 2027)، بينما استعملت ناسا 76.0 ثانية. خطأ بثانية واحدة في ΔT يزيح المسار بنحو 0.4 كم في خط الطول ويغيّر المواقيت المحلية بأقل من ثانية.`,
+      'الإحداثيات جيوديسية وفق نظام WGS 84 (EPSG:4326). ويُفترض الراصد عند مستوى سطح البحر. ارتفاع الشمس هندسي (دون انكسار جوي، وهو أقل من دقيقة قوسية عند هذه الارتفاعات). وتُعطى المواقيت بالتوقيت العالمي UTC وبتوقيت تونس (UTC+1، دون توقيت صيفي).',
+      'يُحسب نطاق الكسوف الكلي والخط المركزي وخطوط التساوي على الخريطة انطلاقًا من العناصر نفسها، خط طول بخط طول (كل 0.02 درجة فوق تونس)، لذا تبقى الخريطة والحاسبة والجداول متسقة فيما بينها.',
+      'قدر الكسوف هو نسبة قطر الشمس التي يغطيها القمر عند الذروة، ونسبة الحجب هي نسبة مساحة الشمس المغطاة. وفي الكسوف الجزئي تُقتطع القيم المعروضة ولا تُقرَّب أبدًا إلى الأعلى، حتى لا يظهر كسوف جزئي عميق جدًا بنسبة 100٪.',
+    ],
+    nasaTitle: 'التحقق 1 — المقارنة مع جدول مسار ناسا',
+    nasaIntro: `لكل سطر من جدول ناسا فوق تونس ومحيطها، يحسب المحرك (بقيمة ΔT الخاصة بناسا، 76 ثانية) المدة عند نقطة الخط المركزي لناسا وخط عرض الحدود على خطوط الطول نفسها. أقصى الفوارق: ${n(maxNasaDur, 2)} ثانية في المدة و${n(maxNasaKm, 2)} كم في الحدود (إحداثيات ناسا مقرّبة إلى 0.1 دقيقة قوسية ≈ 0.18 كم).`,
+    nasaCols: ['UT', 'الخط المركزي', 'مدة ناسا', 'مدة المحرك', 'Δ الحد الشمالي (كم)', 'Δ الحد الجنوبي (كم)'],
+    crossTitle: 'التحقق 2 — المقارنة مع مكتبة مستقلة',
+    crossIntro: `تستعمل مكتبة Astronomy Engine (د. كروس) تقاويمها الخاصة. وباستعمال قيمة ΔT نفسها (${n(ADOPTED_DELTA_T, 1)} ثانية)، تمثل الفوارق أدناه (المحرك − Astronomy Engine) بالثواني. تتوافق تماسات المرحلة الجزئية والذروة في حدود ثانيتين إلى ثلاث ثوانٍ تقريبًا. أما بالنسبة إلى الكسوف الكلي، فيتفق المحركان على الجانب الشمالي من النطاق (القيروان والمهدية: المدد نفسها)، لكن Astronomy Engine تضع الحد الجنوبي أبعد جنوبًا بنحو 2 إلى 4 كم، فيطول الكسوف الكلي لديها في الجنوب (قابس وجربة وتوزر)، وتصنّف ضمن الكسوف الكلي مكانين يقعان خارج نطاق ناسا بقليل (قبلي على بعد 3 كم ومطماطة على بعد 2 كم). ويُفسَّر ذلك بنصف قطرها القمري الأكبر مقرونًا بفوارق طفيفة في التقاويم القمرية. وتُبرز هذه المقارنة عدم اليقين الحقيقي قرب الحدود، لذا ينبّه الموقع إلى كل مكان يقع على بعد أقل من 5 كم من أحد الحدود. وقد وثقنا هذه الفوارق بدل إخفائها.`,
+    crossCols: ['المدينة', 'المحرك', 'Astronomy Engine', 'الحد (كم)', 'C1', 'C2', 'الذروة', 'C3', 'C4', 'الكلي (المحرك)', 'الكلي (AE)'],
+    secondaryTitle: 'التحقق 3 — قيم منشورة',
+    secondary: 'المدد المنشورة لمدن تونسية في دليل مستقل (nationaleclipse.com، دون توثيق للطريقة): صفاقس 5 د 39 ث، سيدي بوزيد 5 د 31 ث، قفصة حوالي 5 د 10 ث، قابس حوالي 4 د 08 ث، الجم 4 د 25 ث، القيروان حوالي 2 د 45 ث. وتختلف قيم هذا الموقع عنها بما بين 0 و4 ثوانٍ، وأكبر الفوارق قرب الحدود.',
+    limitsTitle: 'حدود معروفة',
+    limits: [
+      'تضاريس حافة القمر: تزيح جبال حافة القمر وأوديتها الحدود بمسافة تصل إلى 1–2 كم، وتغيّر المدد قرب الحدود ببضع ثوانٍ. ويُنبَّه إلى النتائج الواقعة على بعد أقل من 5 كم تقريبًا من أحد الحدود.',
+      'الارتفاع: الحسابات عند مستوى سطح البحر. وعلى ارتفاع 500 م تتحرك الحدود ببضع مئات من الأمتار، ويبقى الأثر على المواقيت أقل من ثانية.',
+      'تُمثَّل المدن بنقطة واحدة (وسط المدينة).',
+      'قيمة ΔT لسنة 2027 تقديرية (±1 ثانية).',
+      'الإحصائيات المناخية مستمدة من إعادة تحليل بنموذج (ERA5) ولا تعوّض الأرصاد ولا التوقعات.',
+    ],
+    regTitle: 'سجل المصادر',
+    regCols: ['الهيكل', 'الوثيقة', 'الاستعمال', 'الحدود', 'الترخيص', 'تاريخ الاطلاع'],
+    code: 'تُسلَّم الشفرة المصدرية وملفات المعطيات وبرامج التحقق مع المشروع (المجلد docs/).',
+  },
+}[lang];
+const kindLabel = (k: string) => (k === 'total' ? d.common.total : k === 'partial' ? d.common.partial : d.common.none);
+---
+
+<Base lang={lang} path="sources" title={C.title} description={C.description}>
+  <div class="page-head">
+    <div class="container">
+      <p class="eyebrow">{d.site.date}</p>
+      <h1>{C.h1}</h1>
+      <p class="lead">{C.lead}</p>
+    </div>
+  </div>
+  <div class="container">
+    <section class="narrow">
+      <h2 id="method">{C.methodTitle}</h2>
+      <ul>{C.method.map((p) => <li>{p}</li>)}</ul>
+    </section>
+
+    <h2 id="validation-nasa">{C.nasaTitle}</h2>
+    <p class="narrow">{C.nasaIntro}</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>{C.nasaCols.map((c, i) => <th scope="col" class={i > 1 ? 'num' : undefined}>{c}</th>)}</tr></thead>
+        <tbody>
+          {nasa.map((r) => (
+            <tr>
+              <th scope="row" class="ltr">{r.ut}</th>
+              <td class="ltr">{n(r.lat, 3)}° N, {n(r.lon, 3)}° E</td>
+              <td class="num">{n(r.nasaDuration, 1)} s</td>
+              <td class="num">{n(r.engineDuration, 1)} s</td>
+              <td class="num">{n(r.northKm, 2)}</td>
+              <td class="num">{n(r.southKm, 2)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="validation-cross">{C.crossTitle}</h2>
+    <p class="narrow">{C.crossIntro}</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>{C.crossCols.map((c, i) => <th scope="col" class={i > 2 ? 'num' : undefined}>{c}</th>)}</tr></thead>
+        <tbody>
+          {cross.map((r) => (
+            <tr>
+              <th scope="row">{cityById(r.id).name[lang]}</th>
+              <td>{kindLabel(r.kind)}</td>
+              <td>{kindLabel(r.refKind)}</td>
+              <td class="num">{r.limitKm === null ? '—' : `${r.inside ? '' : '−'}${n(r.limitKm, 1)}`}</td>
+              <td class="num">{sec(r.dC1)}</td>
+              <td class="num">{sec(r.dC2)}</td>
+              <td class="num">{sec(r.dMax)}</td>
+              <td class="num">{sec(r.dC3)}</td>
+              <td class="num">{sec(r.dC4)}</td>
+              <td class="num">{r.duration === null ? '—' : formatDuration(r.duration, lang)}</td>
+              <td class="num">{r.refDuration === null ? '—' : formatDuration(r.refDuration, lang)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <section class="narrow">
+      <h2>{C.secondaryTitle}</h2>
+      <p>{C.secondary}</p>
+      <h2>{C.limitsTitle}</h2>
+      <ul>{C.limits.map((p) => <li>{p}</li>)}</ul>
+    </section>
+
+    <h2 id="register">{C.regTitle}</h2>
+    <div class="table-wrap">
+      <table class="register">
+        <thead><tr>{C.regCols.map((c) => <th scope="col">{c}</th>)}</tr></thead>
+        <tbody>
+          {SOURCES.map((s) => (
+            <tr>
+              <th scope="row">{s.org}</th>
+              <td><a href={s.url} rel="noopener" lang="en" dir="ltr">{s.title}</a></td>
+              <td>{s.use[lang]}</td>
+              <td>{s.limits[lang]}</td>
+              <td lang="en" dir="ltr">{s.licence}</td>
+              <td class="num">{formatDate(s.consulted, lang)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="meta-line">{C.code} <a href={href(lang, 'science') + '#method'}>{d.nav.science}</a></p>
+  </div>
+</Base>
+
+<style>
+  .register td,
+  .register th {
+    font-size: 0.88rem;
+  }
+</style>

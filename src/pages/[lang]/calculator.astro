@@ -1,0 +1,91 @@
+---
+import Base from '../../layouts/Base.astro';
+import CalculatorForm from '../../components/CalculatorForm.astro';
+import Simulation from '../../components/Simulation.astro';
+import ClientI18n from '../../components/ClientI18n.astro';
+import SafetyNotice from '../../components/SafetyNotice.astro';
+import { LANGS, href, type Lang } from '../../i18n/config.ts';
+import { t } from '../../i18n/ui.ts';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const d = t(lang);
+const C = {
+  en: {
+    title: 'Eclipse calculator: times of the 2 August 2027 eclipse anywhere in Tunisia',
+    description: 'Compute the exact times of the total solar eclipse of 2 August 2027 for any town or coordinates in Tunisia: contacts, duration of totality, magnitude, obscuration, Sun position and simulation.',
+    default: 'Example shown: Sfax. Choose another town or enter coordinates.',
+  },
+  fr: {
+    title: 'Calculateur : horaires de l’éclipse du 2 août 2027 partout en Tunisie',
+    description: 'Calculez les horaires exacts de l’éclipse solaire totale du 2 août 2027 pour toute ville ou coordonnée en Tunisie : contacts, durée de la totalité, magnitude, obscuration, position du Soleil et simulation.',
+    default: 'Exemple affiché : Sfax. Choisissez une autre ville ou saisissez des coordonnées.',
+  },
+  ar: {
+    title: 'حاسبة الكسوف: مواقيت كسوف 2 أوت 2027 في أي مكان من تونس',
+    description: 'احسب المواقيت الدقيقة للكسوف الكلي للشمس يوم 2 أوت 2027 لأي مدينة أو إحداثيات في تونس: التماسات، مدة الكسوف الكلي، القدر، نسبة الحجب، موقع الشمس والمحاكاة.',
+    default: 'المثال المعروض: صفاقس. اختر مدينة أخرى أو أدخل الإحداثيات.',
+  },
+}[lang];
+---
+
+<Base lang={lang} path="calculator" title={C.title} description={C.description}>
+  <ClientI18n lang={lang} />
+  <div class="page-head">
+    <div class="container">
+      <p class="eyebrow">{d.site.date}</p>
+      <h1>{d.calc.title}</h1>
+      <p class="lead">{d.calc.intro}</p>
+    </div>
+  </div>
+  <div class="container">
+    <div class="calc-layout">
+      <div class="card">
+        <CalculatorForm lang={lang} />
+        <p class="field-hint" data-default-note>{C.default}</p>
+        <p><a href={href(lang, 'map')}>{d.common.openMap}</a> · <a href={href(lang, 'sources') + '#method'}>{d.calc.method}</a></p>
+      </div>
+      <section class="card results" aria-live="polite" aria-labelledby="res-title">
+        <h2 id="res-title" class="visually-hidden">{d.calc.results}</h2>
+        <div data-results></div>
+      </section>
+    </div>
+    <Simulation lang={lang} />
+    <SafetyNotice lang={lang} />
+  </div>
+</Base>
+
+<script>
+  import { bindCalculatorForm } from '../../scripts/calc-controller.ts';
+  import { renderResults } from '../../scripts/results.ts';
+  import { EclipseSimulation } from '../../scripts/simulation.ts';
+
+  const out = document.querySelector<HTMLElement>('[data-results]')!;
+  const sim = new EclipseSimulation(document.querySelector<HTMLElement>('[data-simulation]')!);
+  const note = document.querySelector<HTMLElement>('[data-default-note]')!;
+  let first = true;
+  const ctl = bindCalculatorForm(document.querySelector('[data-calc-form]')!, (p) => {
+    if (!first) note.hidden = true;
+    first = false;
+    const e = renderResults(out, p);
+    sim.setPlace(p.lat, p.lon, e);
+  });
+  if (ctl.restore()) note.hidden = true;
+  else ctl.selectCity('sfax');
+</script>
+
+<style>
+  .calc-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .calc-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

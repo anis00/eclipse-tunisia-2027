@@ -1,0 +1,875 @@
+{
+ "source": "GeoNames (https://www.geonames.org), CC BY 4.0 — TN.zip and alternatenames/TN.zip",
+ "crs": "EPSG:4326 (WGS 84)",
+ "generated": "2026-10-25",
+ "cities": [
+  {
+   "id": "tunis",
+   "geonameId": 2464470,
+   "name": {
+    "en": "Tunis",
+    "fr": "Tunis",
+    "ar": "تونس"
+   },
+   "lat": 36.81897,
+   "lon": 10.16579,
+   "population": 693210,
+   "governorateCode": "TN-11",
+   "capital": true
+  },
+  {
+   "id": "sfax",
+   "geonameId": 2467454,
+   "name": {
+    "en": "Sfax",
+    "fr": "Sfax",
+    "ar": "صفاقس"
+   },
+   "lat": 34.74056,
+   "lon": 10.76028,
+   "population": 280566,
+   "governorateCode": "TN-61",
+   "capital": true
+  },
+  {
+   "id": "sousse",
+   "geonameId": 2464915,
+   "name": {
+    "en": "Sousse",
+    "fr": "Sousse",
+    "ar": "سوسة"
+   },
+   "lat": 35.82539,
+   "lon": 10.63699,
+   "population": 221715,
+   "governorateCode": "TN-51",
+   "capital": true
+  },
+  {
+   "id": "kairouan",
+   "geonameId": 2473449,
+   "name": {
+    "en": "Kairouan",
+    "fr": "Kairouan",
+    "ar": "القيروان"
+   },
+   "lat": 35.6781,
+   "lon": 10.09633,
+   "population": 139070,
+   "governorateCode": "TN-41",
+   "capital": true
+  },
+  {
+   "id": "bizerte",
+   "geonameId": 2472706,
+   "name": {
+    "en": "Bizerte",
+    "fr": "Bizerte",
+    "ar": "بنزرت"
+   },
+   "lat": 37.27442,
+   "lon": 9.87391,
+   "population": 138430,
+   "governorateCode": "TN-23",
+   "capital": true
+  },
+  {
+   "id": "aryanah",
+   "geonameId": 2473247,
+   "name": {
+    "en": "Ariana",
+    "fr": "Ariana",
+    "ar": "أريانة"
+   },
+   "lat": 36.86012,
+   "lon": 10.19337,
+   "population": 114486,
+   "governorateCode": "TN-12",
+   "capital": true
+  },
+  {
+   "id": "gabes",
+   "geonameId": 2468369,
+   "name": {
+    "en": "Gabès",
+    "fr": "Gabès",
+    "ar": "قابس"
+   },
+   "lat": 33.88146,
+   "lon": 10.0982,
+   "population": 110075,
+   "governorateCode": "TN-81",
+   "capital": true
+  },
+  {
+   "id": "hammamet",
+   "geonameId": 2473744,
+   "name": {
+    "en": "Hammamet",
+    "fr": "Hammamet",
+    "ar": "الحمامات"
+   },
+   "lat": 36.4,
+   "lon": 10.61667,
+   "population": 106326,
+   "governorateCode": "TN-21",
+   "capital": false
+  },
+  {
+   "id": "gafsa",
+   "geonameId": 2468353,
+   "name": {
+    "en": "Gafsa",
+    "fr": "Gafsa",
+    "ar": "قفصة"
+   },
+   "lat": 34.425,
+   "lon": 8.78417,
+   "population": 95242,
+   "governorateCode": "TN-71",
+   "capital": true
+  },
+  {
+   "id": "monastir",
+   "geonameId": 2473493,
+   "name": {
+    "en": "Monastir",
+    "fr": "Monastir",
+    "ar": "المنستير"
+   },
+   "lat": 35.77799,
+   "lon": 10.82617,
+   "population": 93306,
+   "governorateCode": "TN-52",
+   "capital": true
+  },
+  {
+   "id": "houmt-souk",
+   "geonameId": 2470384,
+   "name": {
+    "en": "Houmt Souk (Djerba)",
+    "fr": "Houmt Souk (Djerba)",
+    "ar": "حومة السوق (جربة)"
+   },
+   "lat": 33.87576,
+   "lon": 10.85745,
+   "population": 89228,
+   "governorateCode": "TN-82",
+   "capital": false
+  },
+  {
+   "id": "ben-arous",
+   "geonameId": 2472479,
+   "name": {
+    "en": "Ben Arous",
+    "fr": "Ben Arous",
+    "ar": "بن عروس"
+   },
+   "lat": 36.75452,
+   "lon": 10.22167,
+   "population": 88322,
+   "governorateCode": "TN-13",
+   "capital": true
+  },
+  {
+   "id": "ben-gardane",
+   "geonameId": 2472431,
+   "name": {
+    "en": "Ben Guerdane",
+    "fr": "Ben Guerdane",
+    "ar": "بن قردان"
+   },
+   "lat": 33.13783,
+   "lon": 11.21965,
+   "population": 87404,
+   "governorateCode": "TN-82",
+   "capital": false
+  },
+  {
+   "id": "kasserine",
+   "geonameId": 2473457,
+   "name": {
+    "en": "Kasserine",
+    "fr": "Kasserine",
+    "ar": "القصرين"
+   },
+   "lat": 35.16758,
+   "lon": 8.83651,
+   "population": 84365,
+   "governorateCode": "TN-42",
+   "capital": true
+  },
+  {
+   "id": "zarzis",
+   "geonameId": 2470173,
+   "name": {
+    "en": "Zarzis",
+    "fr": "Zarzis",
+    "ar": "جرجيس"
+   },
+   "lat": 33.50398,
+   "lon": 11.11215,
+   "population": 79316,
+   "governorateCode": "TN-82",
+   "capital": false
+  },
+  {
+   "id": "feriana",
+   "geonameId": 2471059,
+   "name": {
+    "en": "Feriana",
+    "fr": "Fériana",
+    "ar": "فريانة"
+   },
+   "lat": 34.94529,
+   "lon": 8.56789,
+   "population": 75000,
+   "governorateCode": "TN-42",
+   "capital": false
+  },
+  {
+   "id": "medenine",
+   "geonameId": 2469473,
+   "name": {
+    "en": "Medenine",
+    "fr": "Médenine",
+    "ar": "مدنين"
+   },
+   "lat": 33.35495,
+   "lon": 10.50548,
+   "population": 71406,
+   "governorateCode": "TN-82",
+   "capital": true
+  },
+  {
+   "id": "nabeul",
+   "geonameId": 2468579,
+   "name": {
+    "en": "Nabeul",
+    "fr": "Nabeul",
+    "ar": "نابل"
+   },
+   "lat": 36.45606,
+   "lon": 10.73763,
+   "population": 70437,
+   "governorateCode": "TN-21",
+   "capital": true
+  },
+  {
+   "id": "tataouine",
+   "geonameId": 2464701,
+   "name": {
+    "en": "Tataouine",
+    "fr": "Tataouine",
+    "ar": "تطاوين"
+   },
+   "lat": 32.92967,
+   "lon": 10.45177,
+   "population": 66924,
+   "governorateCode": "TN-83",
+   "capital": true
+  },
+  {
+   "id": "korba",
+   "geonameId": 2467920,
+   "name": {
+    "en": "Korba",
+    "fr": "Korba",
+    "ar": "قربة"
+   },
+   "lat": 36.57861,
+   "lon": 10.85861,
+   "population": 65542,
+   "governorateCode": "TN-21",
+   "capital": false
+  },
+  {
+   "id": "kelaa-kebira",
+   "geonameId": 2473483,
+   "name": {
+    "en": "Kalaa Kebira",
+    "fr": "Kalâa Kebira",
+    "ar": "القلعة الكبرى"
+   },
+   "lat": 35.87278,
+   "lon": 10.53722,
+   "population": 63264,
+   "governorateCode": "TN-51",
+   "capital": false
+  },
+  {
+   "id": "moknine",
+   "geonameId": 2473496,
+   "name": {
+    "en": "Moknine",
+    "fr": "Moknine",
+    "ar": "المكنين"
+   },
+   "lat": 35.63333,
+   "lon": 10.9,
+   "population": 62802,
+   "governorateCode": "TN-52",
+   "capital": false
+  },
+  {
+   "id": "beja",
+   "geonameId": 2472774,
+   "name": {
+    "en": "Béja",
+    "fr": "Béja",
+    "ar": "باجة"
+   },
+   "lat": 36.72564,
+   "lon": 9.18169,
+   "population": 61568,
+   "governorateCode": "TN-31",
+   "capital": true
+  },
+  {
+   "id": "menzel-bourguiba",
+   "geonameId": 2469264,
+   "name": {
+    "en": "Menzel Bourguiba",
+    "fr": "Menzel Bourguiba",
+    "ar": "منزل بورقيبة"
+   },
+   "lat": 37.15368,
+   "lon": 9.78594,
+   "population": 58800,
+   "governorateCode": "TN-23",
+   "capital": false
+  },
+  {
+   "id": "ksar-hellal",
+   "geonameId": 2468106,
+   "name": {
+    "en": "Ksar Hellal",
+    "fr": "Ksar Hellal",
+    "ar": "قصر هلال"
+   },
+   "lat": 35.64773,
+   "lon": 10.89046,
+   "population": 55415,
+   "governorateCode": "TN-52",
+   "capital": false
+  },
+  {
+   "id": "djemmal",
+   "geonameId": 2470191,
+   "name": {
+    "en": "Djemmal",
+    "fr": "Djemmal",
+    "ar": "جمال"
+   },
+   "lat": 35.62231,
+   "lon": 10.75696,
+   "population": 55285,
+   "governorateCode": "TN-52",
+   "capital": false
+  },
+  {
+   "id": "el-kef",
+   "geonameId": 2473634,
+   "name": {
+    "en": "Le Kef",
+    "fr": "Le Kef",
+    "ar": "الكاف"
+   },
+   "lat": 36.17424,
+   "lon": 8.70486,
+   "population": 53596,
+   "governorateCode": "TN-33",
+   "capital": true
+  },
+  {
+   "id": "mahdia",
+   "geonameId": 2473572,
+   "name": {
+    "en": "Mahdia",
+    "fr": "Mahdia",
+    "ar": "المهدية"
+   },
+   "lat": 35.50472,
+   "lon": 11.06222,
+   "population": 51803,
+   "governorateCode": "TN-53",
+   "capital": true
+  },
+  {
+   "id": "jendouba",
+   "geonameId": 2470088,
+   "name": {
+    "en": "Jendouba",
+    "fr": "Jendouba",
+    "ar": "جندوبة"
+   },
+   "lat": 36.50114,
+   "lon": 8.78024,
+   "population": 51408,
+   "governorateCode": "TN-32",
+   "capital": true
+  },
+  {
+   "id": "sidi-bouzid",
+   "geonameId": 2465840,
+   "name": {
+    "en": "Sidi Bouzid",
+    "fr": "Sidi Bouzid",
+    "ar": "سيدي بوزيد"
+   },
+   "lat": 35.03823,
+   "lon": 9.48494,
+   "population": 47595,
+   "governorateCode": "TN-43",
+   "capital": true
+  },
+  {
+   "id": "el-hamma",
+   "geonameId": 2473747,
+   "name": {
+    "en": "El Hamma",
+    "fr": "El Hamma",
+    "ar": "الحامة"
+   },
+   "lat": 33.89152,
+   "lon": 9.79629,
+   "population": 47000,
+   "governorateCode": "TN-81",
+   "capital": false
+  },
+  {
+   "id": "hammam-sousse",
+   "geonameId": 2470579,
+   "name": {
+    "en": "Hammam Sousse",
+    "fr": "Hammam Sousse",
+    "ar": "حمام سوسة"
+   },
+   "lat": 35.8609,
+   "lon": 10.60313,
+   "population": 42691,
+   "governorateCode": "TN-51",
+   "capital": false
+  },
+  {
+   "id": "teboulba",
+   "geonameId": 2464861,
+   "name": {
+    "en": "Teboulba",
+    "fr": "Teboulba",
+    "ar": "طبلبة"
+   },
+   "lat": 35.64018,
+   "lon": 10.96731,
+   "population": 41731,
+   "governorateCode": "TN-52",
+   "capital": false
+  },
+  {
+   "id": "metlaoui",
+   "geonameId": 2473517,
+   "name": {
+    "en": "Metlaoui",
+    "fr": "Metlaoui",
+    "ar": "المتلوي"
+   },
+   "lat": 34.32081,
+   "lon": 8.40157,
+   "population": 39021,
+   "governorateCode": "TN-71",
+   "capital": false
+  },
+  {
+   "id": "menzel-temime",
+   "geonameId": 2469250,
+   "name": {
+    "en": "Menzel Temime",
+    "fr": "Menzel Temime",
+    "ar": "منزل تميم"
+   },
+   "lat": 36.78222,
+   "lon": 10.9875,
+   "population": 38908,
+   "governorateCode": "TN-21",
+   "capital": false
+  },
+  {
+   "id": "ksour-essaf",
+   "geonameId": 2467856,
+   "name": {
+    "en": "Ksour Essaf",
+    "fr": "Ksour Essaf",
+    "ar": "قصور الساف"
+   },
+   "lat": 35.41808,
+   "lon": 10.99475,
+   "population": 37683,
+   "governorateCode": "TN-53",
+   "capital": false
+  },
+  {
+   "id": "tozeur",
+   "geonameId": 2464648,
+   "name": {
+    "en": "Tozeur",
+    "fr": "Tozeur",
+    "ar": "توزر"
+   },
+   "lat": 33.91968,
+   "lon": 8.13352,
+   "population": 37370,
+   "governorateCode": "TN-72",
+   "capital": true
+  },
+  {
+   "id": "douz",
+   "geonameId": 2471287,
+   "name": {
+    "en": "Douz",
+    "fr": "Douz",
+    "ar": "دوز"
+   },
+   "lat": 33.46632,
+   "lon": 9.0203,
+   "population": 34221,
+   "governorateCode": "TN-73",
+   "capital": false
+  },
+  {
+   "id": "mateur",
+   "geonameId": 2469088,
+   "name": {
+    "en": "Mateur",
+    "fr": "Mateur",
+    "ar": "ماطر"
+   },
+   "lat": 37.04045,
+   "lon": 9.66557,
+   "population": 32492,
+   "governorateCode": "TN-23",
+   "capital": false
+  },
+  {
+   "id": "manouba",
+   "geonameId": 2469274,
+   "name": {
+    "en": "Manouba",
+    "fr": "Manouba",
+    "ar": "منوبة"
+   },
+   "lat": 36.81006,
+   "lon": 10.09557,
+   "population": 32005,
+   "governorateCode": "TN-14",
+   "capital": true
+  },
+  {
+   "id": "midoun",
+   "geonameId": 2468925,
+   "name": {
+    "en": "Midoun (Djerba)",
+    "fr": "Midoun (Djerba)",
+    "ar": "ميدون (جربة)"
+   },
+   "lat": 33.80813,
+   "lon": 10.99228,
+   "population": 32000,
+   "governorateCode": "TN-82",
+   "capital": false
+  },
+  {
+   "id": "siliana",
+   "geonameId": 2465030,
+   "name": {
+    "en": "Siliana",
+    "fr": "Siliana",
+    "ar": "سليانة"
+   },
+   "lat": 36.08497,
+   "lon": 9.37082,
+   "population": 31251,
+   "governorateCode": "TN-34",
+   "capital": true
+  },
+  {
+   "id": "dahmani",
+   "geonameId": 2471788,
+   "name": {
+    "en": "Dahmani",
+    "fr": "Dahmani",
+    "ar": "الدهماني"
+   },
+   "lat": 35.94388,
+   "lon": 8.82778,
+   "population": 30720,
+   "governorateCode": "TN-33",
+   "capital": false
+  },
+  {
+   "id": "ar-rudayyif",
+   "geonameId": 2473257,
+   "name": {
+    "en": "Redeyef",
+    "fr": "Redeyef",
+    "ar": "الرديف"
+   },
+   "lat": 34.3827,
+   "lon": 8.15549,
+   "population": 26976,
+   "governorateCode": "TN-71",
+   "capital": false
+  },
+  {
+   "id": "kebili",
+   "geonameId": 2468018,
+   "name": {
+    "en": "Kebili",
+    "fr": "Kébili",
+    "ar": "قبلي"
+   },
+   "lat": 33.70439,
+   "lon": 8.96903,
+   "population": 26310,
+   "governorateCode": "TN-73",
+   "capital": true
+  },
+  {
+   "id": "el-fahs",
+   "geonameId": 2468285,
+   "name": {
+    "en": "El Fahs",
+    "fr": "El Fahs",
+    "ar": "الفحص"
+   },
+   "lat": 36.37419,
+   "lon": 9.90651,
+   "population": 25100,
+   "governorateCode": "TN-22",
+   "capital": false
+  },
+  {
+   "id": "ajim",
+   "geonameId": 2473937,
+   "name": {
+    "en": "Ajim (Djerba)",
+    "fr": "Ajim (Djerba)",
+    "ar": "أجيم (جربة)"
+   },
+   "lat": 33.72638,
+   "lon": 10.75664,
+   "population": 24294,
+   "governorateCode": "TN-82",
+   "capital": false
+  },
+  {
+   "id": "carthage",
+   "geonameId": 2468245,
+   "name": {
+    "en": "Carthage",
+    "fr": "Carthage",
+    "ar": "قرطاج"
+   },
+   "lat": 36.86108,
+   "lon": 10.33161,
+   "population": 24216,
+   "governorateCode": "TN-11",
+   "capital": false
+  },
+  {
+   "id": "medjez-el-bab",
+   "geonameId": 2469386,
+   "name": {
+    "en": "Medjez el Bab",
+    "fr": "Medjez el Bab",
+    "ar": "مجاز الباب"
+   },
+   "lat": 36.64964,
+   "lon": 9.61231,
+   "population": 24100,
+   "governorateCode": "TN-31",
+   "capital": false
+  },
+  {
+   "id": "sbeitla",
+   "geonameId": 2464979,
+   "name": {
+    "en": "Sbeitla",
+    "fr": "Sbeïtla",
+    "ar": "سبيطلة"
+   },
+   "lat": 35.23151,
+   "lon": 9.12321,
+   "population": 23764,
+   "governorateCode": "TN-42",
+   "capital": false
+  },
+  {
+   "id": "nefta",
+   "geonameId": 2468561,
+   "name": {
+    "en": "Nefta",
+    "fr": "Nefta",
+    "ar": "نفطة"
+   },
+   "lat": 33.87309,
+   "lon": 7.87765,
+   "population": 22745,
+   "governorateCode": "TN-72",
+   "capital": false
+  },
+  {
+   "id": "chebba",
+   "geonameId": 2473229,
+   "name": {
+    "en": "Chebba",
+    "fr": "Chebba",
+    "ar": "الشابة"
+   },
+   "lat": 35.23722,
+   "lon": 11.115,
+   "population": 22227,
+   "governorateCode": "TN-53",
+   "capital": false
+  },
+  {
+   "id": "el-jem",
+   "geonameId": 2473654,
+   "name": {
+    "en": "El Jem",
+    "fr": "El Jem",
+    "ar": "الجم"
+   },
+   "lat": 35.3,
+   "lon": 10.71667,
+   "population": 21544,
+   "governorateCode": "TN-53",
+   "capital": false
+  },
+  {
+   "id": "moulares",
+   "geonameId": 2464378,
+   "name": {
+    "en": "Moularès",
+    "fr": "Moularès",
+    "ar": "أم العرائس"
+   },
+   "lat": 34.4888,
+   "lon": 8.26874,
+   "population": 21431,
+   "governorateCode": "TN-71",
+   "capital": false
+  },
+  {
+   "id": "zaghouan",
+   "geonameId": 2464041,
+   "name": {
+    "en": "Zaghouan",
+    "fr": "Zaghouan",
+    "ar": "زغوان"
+   },
+   "lat": 36.40291,
+   "lon": 10.14292,
+   "population": 20798,
+   "governorateCode": "TN-22",
+   "capital": true
+  },
+  {
+   "id": "metouia",
+   "geonameId": 2473531,
+   "name": {
+    "en": "Métouia",
+    "fr": "Métouia",
+    "ar": "المطوية"
+   },
+   "lat": 33.95918,
+   "lon": 9.99619,
+   "population": 20648,
+   "governorateCode": "TN-81",
+   "capital": false
+  },
+  {
+   "id": "bekalta",
+   "geonameId": 2473826,
+   "name": {
+    "en": "Bekalta",
+    "fr": "Bekalta",
+    "ar": "البقالطة"
+   },
+   "lat": 35.61739,
+   "lon": 10.99466,
+   "population": 20506,
+   "governorateCode": "TN-52",
+   "capital": false
+  },
+  {
+   "id": "tabarka",
+   "geonameId": 2464871,
+   "name": {
+    "en": "Tabarka",
+    "fr": "Tabarka",
+    "ar": "طبرقة"
+   },
+   "lat": 36.95442,
+   "lon": 8.75801,
+   "population": 19770,
+   "governorateCode": "TN-32",
+   "capital": false
+  },
+  {
+   "id": "degache",
+   "geonameId": 2471454,
+   "name": {
+    "en": "Degache",
+    "fr": "Degache",
+    "ar": "دقاش"
+   },
+   "lat": 33.97606,
+   "lon": 8.2081,
+   "population": 8134,
+   "governorateCode": "TN-72",
+   "capital": false
+  },
+  {
+   "id": "sbiba",
+   "geonameId": 2467506,
+   "name": {
+    "en": "Sbiba",
+    "fr": "Sbiba",
+    "ar": "سبيبة"
+   },
+   "lat": 35.54332,
+   "lon": 9.0737,
+   "population": 6504,
+   "governorateCode": "TN-42",
+   "capital": false
+  },
+  {
+   "id": "matmata",
+   "geonameId": 2463810,
+   "name": {
+    "en": "Matmata",
+    "fr": "Matmata",
+    "ar": "مطماطة"
+   },
+   "lat": 33.54445,
+   "lon": 9.97157,
+   "population": 2406,
+   "governorateCode": "TN-81",
+   "capital": false
+  },
+  {
+   "id": "chebika",
+   "geonameId": 2467077,
+   "name": {
+    "en": "Chebika",
+    "fr": "Chebika",
+    "ar": "الشبيكة"
+   },
+   "lat": 34.31909,
+   "lon": 7.93519,
+   "population": 1820,
+   "governorateCode": "TN-72",
+   "capital": false
+  }
+ ]
+}

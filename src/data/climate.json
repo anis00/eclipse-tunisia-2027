@@ -1,0 +1,155 @@
+{
+ "source": "ERA5 reanalysis (Copernicus C3S / ECMWF) via Open-Meteo Historical Weather API, CC BY 4.0",
+ "method": "Hourly total cloud cover and 2 m temperature at 9:00 UTC, 26 July – 9 August, 2000–2024",
+ "period": [
+  2000,
+  2024
+ ],
+ "generated": "2026-10-25",
+ "points": [
+  {
+   "id": "sfax",
+   "lat": 34.74056,
+   "lon": 10.76028,
+   "gridLat": 34.75,
+   "gridLon": 10.75,
+   "samples": 375,
+   "meanCloudCover": 4.8,
+   "clearShare": 88.5,
+   "cloudyShare": 3.2,
+   "meanTemperature": 29.9
+  },
+  {
+   "id": "djerba",
+   "lat": 33.87576,
+   "lon": 10.85745,
+   "gridLat": 33.75,
+   "gridLon": 10.75,
+   "samples": 375,
+   "meanCloudCover": 4.1,
+   "clearShare": 89.1,
+   "cloudyShare": 1.9,
+   "meanTemperature": 31.4
+  },
+  {
+   "id": "el-jem",
+   "lat": 35.3,
+   "lon": 10.71667,
+   "gridLat": 35.25,
+   "gridLon": 10.75,
+   "samples": 375,
+   "meanCloudCover": 5.2,
+   "clearShare": 89.6,
+   "cloudyShare": 3.7,
+   "meanTemperature": 30.9
+  },
+  {
+   "id": "gabes",
+   "lat": 33.88146,
+   "lon": 10.0982,
+   "gridLat": 34,
+   "gridLon": 10,
+   "samples": 375,
+   "meanCloudCover": 5,
+   "clearShare": 86.9,
+   "cloudyShare": 2.1,
+   "meanTemperature": 30.4
+  },
+  {
+   "id": "gafsa",
+   "lat": 34.425,
+   "lon": 8.78417,
+   "gridLat": 34.5,
+   "gridLon": 8.75,
+   "samples": 375,
+   "meanCloudCover": 4.2,
+   "clearShare": 90.1,
+   "cloudyShare": 2.4,
+   "meanTemperature": 31.9
+  },
+  {
+   "id": "sidi-bouzid",
+   "lat": 35.03823,
+   "lon": 9.48494,
+   "gridLat": 35,
+   "gridLon": 9.5,
+   "samples": 375,
+   "meanCloudCover": 5.1,
+   "clearShare": 88.5,
+   "cloudyShare": 2.9,
+   "meanTemperature": 31.8
+  },
+  {
+   "id": "sbeitla",
+   "lat": 35.23151,
+   "lon": 9.12321,
+   "gridLat": 35.25,
+   "gridLon": 9,
+   "samples": 375,
+   "meanCloudCover": 6.6,
+   "clearShare": 85.6,
+   "cloudyShare": 5.6,
+   "meanTemperature": 32.1
+  },
+  {
+   "id": "kairouan",
+   "lat": 35.6781,
+   "lon": 10.09633,
+   "gridLat": 35.75,
+   "gridLon": 10,
+   "samples": 375,
+   "meanCloudCover": 6.5,
+   "clearShare": 85.1,
+   "cloudyShare": 4.5,
+   "meanTemperature": 31.9
+  },
+  {
+   "id": "mahdia",
+   "lat": 35.50472,
+   "lon": 11.06222,
+   "gridLat": 35.5,
+   "gridLon": 11,
+   "samples": 375,
+   "meanCloudCover": 5.3,
+   "clearShare": 87.5,
+   "cloudyShare": 3.7,
+   "meanTemperature": 31.1
+  },
+  {
+   "id": "tozeur",
+   "lat": 33.91968,
+   "lon": 8.13352,
+   "gridLat": 34,
+   "gridLon": 8.25,
+   "samples": 375,
+   "meanCloudCover": 4.5,
+   "clearShare": 90.7,
+   "cloudyShare": 3.7,
+   "meanTemperature": 33.6
+  },
+  {
+   "id": "sousse-monastir",
+   "lat": 35.82539,
+   "lon": 10.63699,
+   "gridLat": 35.75,
+   "gridLon": 10.75,
+   "samples": 375,
+   "meanCloudCover": 5.9,
+   "clearShare": 87.5,
+   "cloudyShare": 3.7,
+   "meanTemperature": 30.6
+  },
+  {
+   "id": "tunis",
+   "lat": 36.81897,
+   "lon": 10.16579,
+   "gridLat": 36.75,
+   "gridLon": 10.25,
+   "samples": 375,
+   "meanCloudCover": 7.8,
+   "clearShare": 82.7,
+   "cloudyShare": 5.1,
+   "meanTemperature": 29.8
+  }
+ ]
+}

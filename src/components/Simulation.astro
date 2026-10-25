@@ -1,0 +1,116 @@
+---
+import { t } from '../i18n/ui.ts';
+import type { Lang } from '../i18n/config.ts';
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const d = t(lang).sim;
+---
+
+<section class="sim card" id="simulation" aria-labelledby="sim-title" data-simulation>
+  <h2 id="sim-title">{d.title}</h2>
+  <p>{d.intro}</p>
+  <div class="sim-body">
+    <svg class="sim-view" role="img" aria-label={d.title}></svg>
+    <div class="sim-controls">
+      <p class="sim-readout" aria-live="polite">
+        <span class="label">{d.time}</span>
+        <output data-sim="time" class="ltr">--:--:--</output>
+        <output data-sim="covered"></output>
+      </p>
+      <label for="sim-slider">{d.slider}</label>
+      <input id="sim-slider" type="range" min="0" max="1" step="1" value="0" />
+      <div class="buttons">
+        <button type="button" class="btn btn-primary btn-sm" data-sim="play" aria-pressed="false">{d.play}</button>
+        <button type="button" class="btn btn-sm" data-sim="reset">{d.reset}</button>
+        <label class="speed">
+          <span>{d.speed}</span>
+          <select data-sim="speed">
+            <option value="30">×30</option>
+            <option value="60" selected>×60</option>
+            <option value="120">×120</option>
+            <option value="300">×300</option>
+          </select>
+        </label>
+      </div>
+      <p class="field-hint">{d.orientation}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sim {
+    margin-top: 28px;
+  }
+  .sim h2 {
+    margin-top: 0;
+  }
+  .sim-body {
+    display: grid;
+    grid-template-columns: minmax(0, 340px) 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .sim-view {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: #0b1530;
+  }
+  .sim-readout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    align-items: baseline;
+    font-size: 1.1rem;
+  }
+  .sim-readout .label {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  output[data-sim='time'] {
+    font-size: 1.8rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  output[data-sim='covered'] {
+    color: var(--sun-soft);
+    font-weight: 700;
+  }
+  input[type='range'] {
+    padding: 0;
+    min-height: 36px;
+    accent-color: var(--sun);
+    background: transparent;
+    border: 0;
+  }
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+  }
+  .speed {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-weight: 600;
+  }
+  .speed select {
+    width: auto;
+    min-height: 38px;
+  }
+  @media (max-width: 700px) {
+    .sim-body {
+      grid-template-columns: 1fr;
+    }
+    .sim-view {
+      max-width: 300px;
+      justify-self: center;
+    }
+  }
+</style>

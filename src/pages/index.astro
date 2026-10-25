@@ -1,0 +1,95 @@
+---
+/**
+ * Root: language selection. Suggests the browser language without forcing a redirect
+ * (search engines and users always see the three versions).
+ */
+import '../styles/global.css';
+import Logo from '../components/Logo.astro';
+import { LANGS, LANG_META, asset, href } from '../i18n/config.ts';
+import { UI } from '../i18n/ui.ts';
+
+const site = Astro.site!;
+const abs = (p: string) => new URL(p, site).toString();
+---
+
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Eclipse 2027 — Tunisia · Éclipse 2027 — Tunisie · كسوف 2027 — تونس</title>
+    <meta name="description" content="Total solar eclipse of 2 August 2027 in Tunisia — Éclipse solaire totale du 2 août 2027 en Tunisie — الكسوف الكلي للشمس 2 أوت 2027 في تونس." />
+    <link rel="canonical" href={abs(asset(''))} />
+    {LANGS.map((l) => <link rel="alternate" hreflang={l} href={abs(href(l))} />)}
+    <link rel="alternate" hreflang="x-default" href={abs(asset(''))} />
+    <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
+    <meta name="theme-color" content="#0a1028" />
+    <meta property="og:title" content="Eclipse 2027 — Tunisia" />
+    <meta property="og:description" content="Total solar eclipse of 2 August 2027 in Tunisia." />
+    <meta property="og:image" content={abs(asset('og/og-en.jpg'))} />
+    <meta property="og:url" content={abs(asset(''))} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <main class="chooser">
+      <Logo size={96} />
+      <h1 class="ltr">ECLIPSE 2027 — TUNISIA</h1>
+      <p class="tag">Experience the Total Solar Eclipse · 2.8.2027</p>
+      <ul>
+        {LANGS.map((l) => (
+          <li>
+            <a class="btn" href={href(l)} hreflang={l} lang={l} dir={LANG_META[l].dir} data-lang={l}>
+              <strong>{LANG_META[l].label}</strong>
+              <span>{UI[l].site.date}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </main>
+    <script>
+      // Highlight (never force) the version matching the browser language.
+      const pref = (navigator.languages ?? [navigator.language]).map((l) => l.slice(0, 2));
+      const match = pref.find((l) => ['en', 'fr', 'ar'].includes(l));
+      if (match) document.querySelector(`[data-lang="${match}"]`)?.classList.add('btn-primary');
+    </script>
+    <style>
+      .chooser {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 24px 16px;
+        background: radial-gradient(ellipse at 50% 30%, rgba(165, 151, 255, 0.18), transparent 60%), var(--space);
+      }
+      h1 {
+        letter-spacing: 0.12em;
+        font-size: clamp(1.6rem, 6vw, 2.6rem);
+        margin-top: 18px;
+      }
+      .tag {
+        color: var(--sun-soft);
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        justify-content: center;
+        margin-top: 28px;
+      }
+      .btn {
+        flex-direction: column;
+        border-radius: var(--radius);
+        min-width: 200px;
+        padding: 14px 22px;
+      }
+      .btn span {
+        font-weight: 400;
+        font-size: 0.9rem;
+      }
+    </style>
+  </body>
+</html>

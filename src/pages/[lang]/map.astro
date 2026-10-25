@@ -1,0 +1,343 @@
+---
+import Base from '../../layouts/Base.astro';
+import ClientI18n from '../../components/ClientI18n.astro';
+import CityTable from '../../components/CityTable.astro';
+import SafetyNotice from '../../components/SafetyNotice.astro';
+import { LANGS, href, type Lang } from '../../i18n/config.ts';
+import { t } from '../../i18n/ui.ts';
+import { citiesWithEclipse, destinations } from '../../lib/data.ts';
+import { formatDuration } from '../../lib/format.ts';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const d = t(lang);
+const destCities = new Set(destinations.map((x) => x.cityId));
+const cityGeo = {
+  type: 'FeatureCollection',
+  features: citiesWithEclipse().map((c) => ({
+    type: 'Feature',
+    properties: {
+      id: c.id,
+      name: c.name[lang],
+      kind: c.eclipse.kind,
+      duration: c.eclipse.centralDuration ? formatDuration(c.eclipse.centralDuration, lang) : '',
+      destination: destCities.has(c.id),
+      population: c.population,
+    },
+    geometry: { type: 'Point', coordinates: [c.lon, c.lat] },
+  })),
+};
+const C = {
+  en: {
+    title: 'Interactive map of the 2 August 2027 eclipse path in Tunisia',
+    description: 'Interactive map of the path of totality of the 2 August 2027 solar eclipse across Tunisia: limits, central line, duration isolines and local times on click.',
+  },
+  fr: {
+    title: 'Carte interactive de la trajectoire de l’éclipse du 2 août 2027 en Tunisie',
+    description: 'Carte interactive de la bande de totalité de l’éclipse solaire du 2 août 2027 en Tunisie : limites, ligne centrale, isolignes de durée et horaires locaux au clic.',
+  },
+  ar: {
+    title: 'الخريطة التفاعلية لمسار كسوف 2 أوت 2027 في تونس',
+    description: 'خريطة تفاعلية لنطاق الكسوف الكلي للشمس يوم 2 أوت 2027 عبر تونس: الحدود، الخط المركزي، خطوط تساوي المدة والمواقيت المحلية بنقرة واحدة.',
+  },
+}[lang];
+const groups = [
+  ['umbra', d.map.umbra, true, 'sw-umbra'],
+  ['central', d.map.central, true, 'sw-central'],
+  ['limits', d.map.limits, true, 'sw-limits'],
+  ['durations', d.map.durations, true, 'sw-durations'],
+  ['magnitudes', d.map.magnitudes, true, 'sw-magnitudes'],
+  ['governorates', d.map.governorates, true, 'sw-gov'],
+  ['cities', d.map.cities, true, 'sw-cities'],
+  ['destinations', d.map.destinations, true, 'sw-dest'],
+] as const;
+---
+
+<Base lang={lang} path="map" title={C.title} description={C.description}>
+  <ClientI18n lang={lang} />
+  <script id="map-cities" type="application/json" set:html={JSON.stringify(cityGeo).replace(/</g, '\\u003c')} />
+  <h1 class="visually-hidden">{d.map.title}</h1>
+  <div class="map-app">
+    <div class="map-wrap">
+      <div id="map" class="map" role="region" aria-label={d.map.title}></div>
+      <p class="map-status" role="status" data-map-status hidden></p>
+      <p class="map-hint">{d.map.clickHint}</p>
+    </div>
+    <aside class="panel" aria-label={d.map.layers}>
+      <div class="panel-block">
+        <label for="map-search">{d.map.search}</label>
+        <div class="search">
+          <input id="map-search" list="map-cities-list" placeholder={d.map.searchPlaceholder} autocomplete="off" data-search />
+          <datalist id="map-cities-list">
+            {cityGeo.features.map((f) => <option value={f.properties.name}></option>)}
+          </datalist>
+        </div>
+        <p class="field-error" role="alert" data-search-err></p>
+      </div>
+
+      <section class="panel-block results" aria-live="polite" aria-labelledby="map-res-title">
+        <h2 id="map-res-title" class="panel-title">{d.calc.results}</h2>
+        <div data-results><p class="field-hint">{d.map.clickHint}</p></div>
+        <p data-calc-link hidden><a class="btn btn-sm" href={href(lang, 'calculator')}>{d.sim.title} →</a></p>
+      </section>
+
+      <fieldset class="panel-block layers">
+        <legend class="panel-title">{d.map.layers} · {d.map.legend}</legend>
+        {groups.map(([key, label, on, sw]) => (
+          <label class="layer">
+            <input type="checkbox" data-layer={key} checked={on} />
+            <span class={`sw ${sw}`} aria-hidden="true"></span>
+            <span>{label}</span>
+          </label>
+        ))}
+        <button type="button" class="btn btn-sm btn-ghost" data-reset>{d.map.resetView}</button>
+      </fieldset>
+      <p class="sources">{d.map.dataSources} <a href={href(lang, 'sources')}>{d.nav.sources}</a></p>
+    </aside>
+  </div>
+
+  <div class="container section">
+    <SafetyNotice lang={lang} />
+    <h2>{d.map.textAlternative}</h2>
+    <p>{d.map.intro}</p>
+    <CityTable lang={lang} caption={d.map.textAlternative} />
+  </div>
+</Base>
+
+<script>
+  import { createEclipseMap } from '../../scripts/map.ts';
+  import { renderResults } from '../../scripts/results.ts';
+  import { clientI18n } from '../../scripts/i18n-client.ts';
+
+  const { d } = clientI18n();
+  const status = document.querySelector<HTMLElement>('[data-map-status]')!;
+  const out = document.querySelector<HTMLElement>('[data-results]')!;
+  const calcLink = document.querySelector<HTMLElement>('[data-calc-link]')!;
+  const cities = JSON.parse(document.getElementById('map-cities')!.textContent!) as GeoJSON.FeatureCollection<GeoJSON.Point, { id: string; name: string }>;
+
+  let api: Awaited<ReturnType<typeof createEclipseMap>> = null;
+
+  function pick(p: { lat: number; lon: number; label?: string; id?: string }, fly = false) {
+    renderResults(out, p, true);
+    const params = new URLSearchParams({ lat: p.lat.toFixed(5), lon: p.lon.toFixed(5) });
+    if (p.id) params.set('place', p.id);
+    const a = calcLink.querySelector('a')!;
+    a.href = `${a.href.split('?')[0]}?${params}#simulation`;
+    calcLink.hidden = false;
+    history.replaceState(null, '', `?${params}`);
+    api?.setPick(p.lat, p.lon, fly);
+  }
+
+  createEclipseMap(
+    {
+      container: document.getElementById('map')!,
+      onPick: (p) => pick(p),
+      onStatus: (msg, kind) => {
+        status.hidden = !msg;
+        status.textContent = msg ?? '';
+        status.dataset.kind = kind ?? 'info';
+      },
+    },
+    cities,
+  ).then((m) => {
+    api = m;
+    const q = new URLSearchParams(location.search);
+    const city = cities.features.find((f) => f.properties.id === q.get('place'));
+    if (city) pick({ lat: city.geometry.coordinates[1]!, lon: city.geometry.coordinates[0]!, label: city.properties.name, id: city.properties.id }, true);
+    else if (q.has('lat') && q.has('lon')) {
+      const lat = Number(q.get('lat'));
+      const lon = Number(q.get('lon'));
+      if (Math.abs(lat) <= 90 && Math.abs(lon) <= 180) pick({ lat, lon }, true);
+    }
+  });
+
+  document.querySelectorAll<HTMLInputElement>('[data-layer]').forEach((cb) =>
+    cb.addEventListener('change', () => api?.setGroupVisible(cb.dataset.layer!, cb.checked)),
+  );
+  document.querySelector('[data-reset]')!.addEventListener('click', () => api?.resetView());
+
+  const search = document.querySelector<HTMLInputElement>('[data-search]')!;
+  const searchErr = document.querySelector<HTMLElement>('[data-search-err]')!;
+  const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+  const runSearch = () => {
+    const q = norm(search.value);
+    if (!q) return;
+    const f = cities.features.find((c) => norm(c.properties.name) === q) ?? cities.features.find((c) => norm(c.properties.name).startsWith(q));
+    searchErr.textContent = f ? '' : d.map.noResult;
+    if (f) pick({ lat: f.geometry.coordinates[1]!, lon: f.geometry.coordinates[0]!, label: f.properties.name, id: f.properties.id }, true);
+  };
+  search.addEventListener('change', runSearch);
+  search.addEventListener('keydown', (e) => e.key === 'Enter' && (e.preventDefault(), runSearch()));
+</script>
+
+<style>
+  .map-app {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 400px;
+    height: calc(100vh - 65px);
+    min-height: 560px;
+    border-bottom: 1px solid var(--line);
+  }
+  .map-wrap {
+    position: relative;
+    min-height: 0;
+  }
+  .map {
+    position: absolute;
+    inset: 0;
+    background: #0b1530;
+  }
+  .map-status {
+    position: absolute;
+    top: 12px;
+    inset-inline-start: 12px;
+    z-index: 2;
+    max-width: min(420px, calc(100% - 80px));
+    margin: 0;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--night-2);
+    border: 1px solid var(--line);
+    font-size: 0.92rem;
+  }
+  .map-status[data-kind='error'] {
+    border-color: var(--danger);
+  }
+  .map-hint {
+    position: absolute;
+    bottom: 36px;
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    padding: 6px 12px;
+    background: rgba(5, 6, 13, 0.78);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  :global(html[dir='rtl']) .map-hint {
+    transform: translateX(50%);
+  }
+  .panel {
+    overflow-y: auto;
+    background: var(--night);
+    border-inline-start: 1px solid var(--line);
+    padding: 16px;
+  }
+  .panel-block {
+    margin-bottom: 18px;
+  }
+  .panel-title {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 0 0 10px;
+  }
+  :global(html[lang='ar']) .panel-title {
+    letter-spacing: 0;
+  }
+  .results :global(.res-place) {
+    font-size: 1.15rem;
+  }
+  .results :global(.res-figures dd) {
+    font-size: 1.1rem;
+  }
+  .results :global(td),
+  .results :global(th) {
+    padding: 0.45em 0.5em;
+    font-size: 0.86rem;
+  }
+  fieldset {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+  }
+  legend {
+    padding: 0 6px;
+  }
+  .layer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    margin: 0;
+    padding: 6px 0;
+    cursor: pointer;
+  }
+  .layer input {
+    width: 20px;
+    min-height: 20px;
+    height: 20px;
+    accent-color: var(--turquoise);
+  }
+  .sw {
+    width: 26px;
+    height: 12px;
+    flex-shrink: 0;
+    border-radius: 3px;
+  }
+  .sw-umbra {
+    background: rgba(143, 134, 255, 0.45);
+  }
+  .sw-central {
+    height: 3px;
+    background: var(--sun);
+  }
+  .sw-limits {
+    height: 0;
+    border-top: 2px dashed #ece9ff;
+  }
+  .sw-durations {
+    height: 0;
+    border-top: 1px solid #ffd68a;
+  }
+  .sw-magnitudes {
+    height: 0;
+    border-top: 1px dashed var(--turquoise);
+  }
+  .sw-gov {
+    height: 0;
+    border-top: 1px solid #8b98c9;
+  }
+  .sw-cities {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, var(--sun) 50%, var(--ink) 50%);
+  }
+  .sw-dest {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid var(--turquoise);
+  }
+  .sources {
+    font-size: 0.8rem;
+    color: var(--faint);
+  }
+  @media (max-width: 960px) {
+    .map-app {
+      grid-template-columns: 1fr;
+      height: auto;
+    }
+    .map-wrap {
+      height: 62vh;
+      min-height: 380px;
+    }
+    .panel {
+      border-inline-start: 0;
+      border-top: 1px solid var(--line);
+    }
+    .map-hint {
+      white-space: normal;
+      text-align: center;
+      width: max-content;
+      max-width: 80%;
+    }
+  }
+</style>

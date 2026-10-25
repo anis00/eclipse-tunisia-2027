@@ -1,0 +1,54 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { LANGS, href, type Lang } from '../../../i18n/config.ts';
+import { t } from '../../../i18n/ui.ts';
+import { formatDate } from '../../../lib/format.ts';
+import { newsFor, newsSlug } from '../../../lib/news.ts';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const d = t(lang);
+const items = await newsFor(lang);
+const C = {
+  en: { title: 'News about the 2 August 2027 eclipse in Tunisia', description: 'Dated news and updates about the total solar eclipse of 2 August 2027 in Tunisia and about this site.' },
+  fr: { title: 'Actualités de l’éclipse du 2 août 2027 en Tunisie', description: 'Actualités datées et mises à jour sur l’éclipse solaire totale du 2 août 2027 en Tunisie et sur ce site.' },
+  ar: { title: 'أخبار كسوف 2 أوت 2027 في تونس', description: 'أخبار مؤرخة وتحديثات حول الكسوف الكلي للشمس يوم 2 أوت 2027 في تونس وحول هذا الموقع.' },
+}[lang];
+---
+
+<Base lang={lang} path="news" title={C.title} description={C.description}>
+  <div class="page-head">
+    <div class="container">
+      <p class="eyebrow">{d.site.date}</p>
+      <h1>{d.nav.news}</h1>
+    </div>
+  </div>
+  <div class="container narrow">
+    {items.map((e) => (
+      <article class="card item">
+        <p class="meta-line"><time datetime={e.data.date.toISOString().slice(0, 10)}>{formatDate(e.data.date, lang)}</time></p>
+        <h2><a href={href(lang, `news/${newsSlug(e)}`)}>{e.data.title}</a></h2>
+        <p>{e.data.description}</p>
+      </article>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .item {
+    margin-bottom: 16px;
+  }
+  .item h2 {
+    margin: 4px 0 8px;
+    font-size: 1.3rem;
+  }
+  .item h2 a {
+    color: var(--ink);
+  }
+  .item p:last-child {
+    margin: 0;
+    color: var(--muted);
+  }
+</style>

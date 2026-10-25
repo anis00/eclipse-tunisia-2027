@@ -1,0 +1,35 @@
+---
+import '../styles/global.css';
+import { LANGS, LANG_META, asset, href } from '../i18n/config.ts';
+import { UI } from '../i18n/ui.ts';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>404 — Eclipse 2027 — Tunisia</title>
+    <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
+  </head>
+  <body>
+    <main class="container section">
+      {LANGS.map((l) => (
+        <section lang={l} dir={LANG_META[l].dir} class="card nf">
+          <h1>{UI[l].notFound.title}</h1>
+          <p>{UI[l].notFound.text}</p>
+          <a class="btn btn-primary" href={href(l)}>{UI[l].notFound.back}</a>
+        </section>
+      ))}
+    </main>
+    <style>
+      .nf {
+        margin-bottom: 16px;
+      }
+      .nf h1 {
+        font-size: 1.6rem;
+      }
+    </style>
+  </body>
+</html>

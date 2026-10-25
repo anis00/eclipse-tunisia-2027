@@ -1,0 +1,150 @@
+---
+import Base from '../../layouts/Base.astro';
+import SafetyNotice from '../../components/SafetyNotice.astro';
+import { LANGS, href, type Lang } from '../../i18n/config.ts';
+import { t } from '../../i18n/ui.ts';
+import { cityById, tunisiaFacts } from '../../lib/data.ts';
+import { formatDuration, formatObscuration, formatTime } from '../../lib/format.ts';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const d = t(lang);
+const f = tunisiaFacts();
+const sfax = cityById('sfax').eclipse;
+const tunis = cityById('tunis').eclipse;
+const sousse = cityById('sousse').eclipse;
+const T = (date: Date) => formatTime(date, lang).slice(0, 5);
+const dur = (s: number) => formatDuration(s, lang);
+const L = (p: string) => href(lang, p);
+
+const QA: Record<Lang, { title: string; description: string; h1: string; items: [string, string][] }> = {
+  en: {
+    title: 'Eclipse of 2 August 2027 in Tunisia: frequently asked questions',
+    description: 'Answers to the most common questions about the total solar eclipse of 2 August 2027 in Tunisia: times, places, safety, glasses, photography, weather.',
+    h1: 'Frequently asked questions',
+    items: [
+      ['When will the eclipse take place in Tunisia?', `On Monday 2 August 2027, in the morning. The partial eclipse starts around ${T(sfax.c1!.time)} and ends around ${T(sfax.c4!.time)} (times for Sfax, Tunisian time UTC+1). Totality occurs between about ${T(f.firstC2)} and ${T(f.lastC3)} depending on the place. Use the <a href="${L('calculator')}">calculator</a> for exact times.`],
+      ['Will totality be visible from Tunis?', `No. Tunis is about 110 km north of the path of totality: the Sun will be about ${formatObscuration(tunis.max!.obscuration, false, lang)} covered, but never completely. Eye protection is needed throughout. To see totality, travel south towards Kairouan, Mahdia, El Jem or Sfax.`],
+      ['And from Sousse or Monastir?', `Not either, by a small margin: the northern limit passes about 10 km south of these cities. The eclipse there is very deep (${formatObscuration(sousse.max!.obscuration, false, lang)} in Sousse) but remains partial. Less than an hour's drive south is enough to see totality. See the <a href="${L('destinations/sousse-monastir')}">Sousse–Monastir sheet</a>.`],
+      ['Where is totality longest in Tunisia?', `Along the central line, which crosses the country from the region of Fériana to Sfax, passing near Sidi Bouzid. Totality reaches up to ${dur(f.maxDuration)} there. Sfax gets ${dur(sfax.centralDuration!)}, Sidi Bouzid and Gafsa more than five minutes.`],
+      ['Is it dangerous to look at the eclipse?', `Looking at the Sun without protection can cause permanent eye damage. Use eclipse glasses complying with ISO 12312-2 during all partial phases. Only during totality itself, inside the path, can you look with the naked eye. Read our <a href="${L('guide')}#safety">safety guide</a>.`],
+      ['Are sunglasses enough?', 'No. Even very dark sunglasses let through far too much light. Only certified solar eclipse glasses (ISO 12312-2) or a dedicated solar viewer are safe for looking directly at the partially eclipsed Sun.'],
+      ['Where can I get eclipse glasses?', 'From reputable suppliers of astronomical equipment. Check the ISO 12312-2 marking and the condition of the filters. The American Astronomical Society publishes a list of reputable vendors. Avoid glasses of unknown origin.'],
+      ['Can I photograph the eclipse with my phone?', 'Yes, with precautions: during the partial phases, put a certified solar filter in front of the lens and never look at the Sun through the screen without glasses. During totality, the phone can be used without a filter and captures the atmosphere very well. Keep time to watch with your own eyes.'],
+      ['What if the sky is cloudy?', `Statistically, early August mornings are very often clear in the path of totality, but dust haze is possible. Forecasts will only be meaningful a few days before; follow our <a href="${L('weather')}">weather page</a> and stay flexible about your observing site.`],
+      ['Is the eclipse dangerous for pregnant women, for food or for water?', 'No. There is no scientific evidence that an eclipse harms pregnant women, food, water or plants. The only real danger is to the eyes when looking at the Sun without protection.'],
+      ['Will there be an eclipse prayer?', 'In Islam, the eclipse prayer (salat al-kusuf) is traditionally performed during a solar eclipse. Information about prayers is given by local mosques and religious authorities.'],
+      ['How accurate are the times on this site?', 'The contacts are computed from NASA’s Besselian elements and are accurate to about two seconds for the partial phase and to a few seconds for the start and end of totality away from the limits. Near the limits, the irregular edge of the Moon can change the duration of totality by several seconds and shift the limits by 1–2 km. Details are on the <a href="' + L('sources') + '">sources and methods</a> page.'],
+      ['Should I expect traffic and crowds?', 'Probably, especially on the roads leading from the north and the Sahel to the path of totality. Plan to arrive early, carry water and follow the instructions of the local authorities.'],
+    ],
+  },
+  fr: {
+    title: 'Éclipse du 2 août 2027 en Tunisie : questions fréquentes',
+    description: 'Réponses aux questions les plus fréquentes sur l’éclipse solaire totale du 2 août 2027 en Tunisie : horaires, lieux, sécurité, lunettes, photographie, météo.',
+    h1: 'Questions fréquentes',
+    items: [
+      ['Quand l’éclipse aura-t-elle lieu en Tunisie ?', `Le lundi 2 août 2027, dans la matinée. L’éclipse partielle commence vers ${T(sfax.c1!.time)} et se termine vers ${T(sfax.c4!.time)} (horaires de Sfax, heure tunisienne UTC+1). La totalité a lieu entre environ ${T(f.firstC2)} et ${T(f.lastC3)} selon le lieu. Utilisez le <a href="${L('calculator')}">calculateur</a> pour les horaires exacts.`],
+      ['La totalité sera-t-elle visible depuis Tunis ?', `Non. Tunis se trouve à environ 110 km au nord de la bande de totalité : le Soleil sera masqué à environ ${formatObscuration(tunis.max!.obscuration, false, lang)}, mais jamais entièrement. Une protection oculaire est nécessaire du début à la fin. Pour voir la totalité, rendez-vous vers Kairouan, Mahdia, El Jem ou Sfax.`],
+      ['Et depuis Sousse ou Monastir ?', `Non plus, de peu : la limite nord passe à environ 10 km au sud de ces villes. L’éclipse y est très profonde (${formatObscuration(sousse.max!.obscuration, false, lang)} à Sousse) mais reste partielle. Moins d’une heure de route vers le sud suffit pour voir la totalité. Voir la <a href="${L('destinations/sousse-monastir')}">fiche Sousse–Monastir</a>.`],
+      ['Où la totalité est-elle la plus longue en Tunisie ?', `Le long de la ligne centrale, qui traverse le pays de la région de Fériana jusqu’à Sfax, en passant près de Sidi Bouzid. La totalité y atteint jusqu’à ${dur(f.maxDuration)}. Sfax bénéficie de ${dur(sfax.centralDuration!)}, Sidi Bouzid et Gafsa de plus de cinq minutes.`],
+      ['Est-il dangereux de regarder l’éclipse ?', `Regarder le Soleil sans protection peut causer des lésions oculaires permanentes. Utilisez des lunettes d’éclipse conformes à la norme ISO 12312-2 pendant toutes les phases partielles. Seulement pendant la totalité elle-même, dans la bande, vous pouvez regarder à l’œil nu. Lisez notre <a href="${L('guide')}#safety">guide de sécurité</a>.`],
+      ['Des lunettes de soleil suffisent-elles ?', 'Non. Même très foncées, les lunettes de soleil laissent passer beaucoup trop de lumière. Seules des lunettes d’éclipse certifiées (ISO 12312-2) ou une visionneuse solaire dédiée permettent de regarder directement le Soleil partiellement éclipsé.'],
+      ['Où se procurer des lunettes d’éclipse ?', 'Auprès de fournisseurs de matériel astronomique fiables. Vérifiez le marquage ISO 12312-2 et l’état des filtres. L’American Astronomical Society publie une liste de fournisseurs reconnus. Évitez les lunettes d’origine inconnue.'],
+      ['Puis-je photographier l’éclipse avec mon téléphone ?', 'Oui, avec précaution : pendant les phases partielles, placez un filtre solaire certifié devant l’objectif et ne regardez jamais le Soleil à travers l’écran sans lunettes. Pendant la totalité, le téléphone peut être utilisé sans filtre et restitue très bien l’ambiance. Gardez du temps pour regarder de vos propres yeux.'],
+      ['Et si le ciel est nuageux ?', `Statistiquement, les matinées du début août sont très souvent dégagées dans la bande de totalité, mais une brume de poussière reste possible. Les prévisions n’auront de sens que quelques jours avant ; suivez notre <a href="${L('weather')}">page météo</a> et restez flexible sur votre site d’observation.`],
+      ['L’éclipse est-elle dangereuse pour les femmes enceintes, la nourriture ou l’eau ?', 'Non. Aucune donnée scientifique n’indique qu’une éclipse nuise aux femmes enceintes, à la nourriture, à l’eau ou aux plantes. Le seul danger réel concerne les yeux lorsqu’on regarde le Soleil sans protection.'],
+      ['Y aura-t-il une prière de l’éclipse ?', 'Dans l’islam, la prière de l’éclipse (salat al-koussouf) est traditionnellement accomplie lors d’une éclipse de Soleil. Les informations sur les prières sont données par les mosquées et les autorités religieuses locales.'],
+      ['Quelle est la précision des horaires de ce site ?', 'Les contacts sont calculés à partir des éléments de Bessel de la NASA et sont précis à environ deux secondes pour la phase partielle et à quelques secondes pour le début et la fin de la totalité, hors voisinage des limites. Près des limites, le bord irrégulier de la Lune peut modifier la durée de la totalité de plusieurs secondes et déplacer les limites de 1 à 2 km. Les détails figurent sur la page <a href="' + L('sources') + '">sources et méthodes</a>.'],
+      ['Faut-il s’attendre à des embouteillages et à de l’affluence ?', 'Probablement, surtout sur les routes menant du nord et du Sahel vers la bande de totalité. Prévoyez d’arriver tôt, emportez de l’eau et suivez les consignes des autorités locales.'],
+    ],
+  },
+  ar: {
+    title: 'كسوف 2 أوت 2027 في تونس: أسئلة شائعة',
+    description: 'إجابات عن أكثر الأسئلة شيوعًا حول الكسوف الكلي للشمس يوم 2 أوت 2027 في تونس: المواقيت، الأماكن، السلامة، النظارات، التصوير، الطقس.',
+    h1: 'أسئلة شائعة',
+    items: [
+      ['متى سيحدث الكسوف في تونس؟', `يوم الاثنين 2 أوت 2027 صباحًا. يبدأ الكسوف الجزئي حوالي الساعة ${T(sfax.c1!.time)} وينتهي حوالي ${T(sfax.c4!.time)} (مواقيت صفاقس، بتوقيت تونس UTC+1). ويحدث الكسوف الكلي بين ${T(f.firstC2)} و${T(f.lastC3)} تقريبًا حسب المكان. استعمل <a href="${L('calculator')}">الحاسبة</a> لمعرفة المواقيت الدقيقة.`],
+      ['هل سيكون الكسوف الكلي مرئيًا من تونس العاصمة؟', `لا. تقع العاصمة على بعد 110 كم تقريبًا شمال نطاق الكسوف الكلي، وستُحجب الشمس بنسبة ${formatObscuration(tunis.max!.obscuration, false, lang)} تقريبًا، لكن ليس كليًا أبدًا. لذا تلزم حماية العينين طوال الكسوف. لمشاهدة الكسوف الكلي، توجّه جنوبًا نحو القيروان أو المهدية أو الجم أو صفاقس.`],
+      ['وماذا عن سوسة أو المنستير؟', `لا أيضًا، وبفارق بسيط: يمر الحد الشمالي على بعد 10 كم تقريبًا جنوب هاتين المدينتين. يكون الكسوف فيهما عميقًا جدًا (${formatObscuration(sousse.max!.obscuration, false, lang)} في سوسة) لكنه يبقى جزئيًا. تكفي أقل من ساعة بالسيارة جنوبًا لمشاهدة الكسوف الكلي. انظر <a href="${L('destinations/sousse-monastir')}">بطاقة سوسة والمنستير</a>.`],
+      ['أين يكون الكسوف الكلي أطول في تونس؟', `على امتداد الخط المركزي الذي يعبر البلاد من جهة فريانة إلى صفاقس مرورًا بالقرب من سيدي بوزيد، حيث تصل مدة الكسوف الكلي إلى ${dur(f.maxDuration)}. وتحظى صفاقس بـ${dur(sfax.centralDuration!)}، وسيدي بوزيد وقفصة بأكثر من خمس دقائق.`],
+      ['هل النظر إلى الكسوف خطير؟', `النظر إلى الشمس دون حماية قد يسبب أضرارًا دائمة للعينين. استعمل نظارات كسوف مطابقة للمعيار ISO 12312-2 طوال المراحل الجزئية. فقط خلال الكسوف الكلي نفسه، وداخل النطاق، يمكنك النظر بالعين المجردة. اقرأ <a href="${L('guide')}#safety">دليل السلامة</a>.`],
+      ['هل تكفي النظارات الشمسية العادية؟', 'لا. حتى النظارات الشمسية الداكنة جدًا تسمح بمرور قدر كبير جدًا من الضوء. وحدها نظارات الكسوف المعتمدة (ISO 12312-2) أو المناظير الشمسية المخصصة تسمح بالنظر مباشرة إلى الشمس خلال الكسوف الجزئي.'],
+      ['من أين أحصل على نظارات الكسوف؟', 'من مزوّدين موثوقين لمعدات الفلك. تحقق من علامة ISO 12312-2 ومن سلامة المرشّحات. تنشر الجمعية الفلكية الأمريكية قائمة بالمزوّدين المعترف بهم. تجنب النظارات مجهولة المصدر.'],
+      ['هل يمكنني تصوير الكسوف بهاتفي؟', 'نعم، مع الاحتياط: خلال المراحل الجزئية ضع مرشّحًا شمسيًا معتمدًا أمام العدسة، ولا تنظر أبدًا إلى الشمس عبر الشاشة دون نظارات. أما خلال الكسوف الكلي فيمكن استعمال الهاتف دون مرشّح، وهو ينقل الأجواء بشكل ممتاز. احتفظ بوقت للتأمل بعينيك.'],
+      ['وإذا كانت السماء غائمة؟', `إحصائيًا، تكون صباحات أوائل أوت صافية في أغلب الأحيان داخل نطاق الكسوف الكلي، لكن الضباب الغباري يبقى واردًا. لن تكون التوقعات ذات معنى إلا قبل الموعد ببضعة أيام، فتابع <a href="${L('weather')}">صفحة الطقس</a> وكن مرنًا في اختيار موقع الرصد.`],
+      ['هل الكسوف خطير على الحوامل أو الطعام أو الماء؟', 'لا. لا يوجد أي دليل علمي على أن الكسوف يضر بالحوامل أو بالطعام أو بالماء أو بالنباتات. الخطر الحقيقي الوحيد يخص العينين عند النظر إلى الشمس دون حماية.'],
+      ['هل ستُقام صلاة الكسوف؟', 'في الإسلام، تُؤدّى صلاة الكسوف تقليديًا عند حدوث كسوف للشمس. تُقدَّم المعلومات المتعلقة بالصلاة من قبل المساجد والسلطات الدينية المحلية.'],
+      ['ما مدى دقة المواقيت في هذا الموقع؟', 'تُحسب التماسات انطلاقًا من عناصر بيسل الصادرة عن ناسا، وتبلغ دقتها ثانيتين تقريبًا للمرحلة الجزئية وبضع ثوانٍ لبداية الكسوف الكلي ونهايته بعيدًا عن الحدود. وقرب الحدود قد تغيّر حافة القمر غير المنتظمة مدة الكسوف الكلي ببضع ثوانٍ، وتزيح الحدود بمسافة 1–2 كم. التفاصيل في صفحة <a href="' + L('sources') + '">المصادر والمنهجية</a>.'],
+      ['هل يجب توقع الازدحام وكثافة حركة المرور؟', 'على الأرجح، خاصة على الطرقات المؤدية من الشمال والساحل نحو نطاق الكسوف الكلي. خطط للوصول باكرًا، واحمل معك الماء، والتزم بتعليمات السلطات المحلية.'],
+    ],
+  },
+};
+const C = QA[lang];
+const strip = (s: string) => s.replace(/<[^>]+>/g, '');
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: C.items.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: strip(a) } })),
+};
+---
+
+<Base lang={lang} path="faq" title={C.title} description={C.description} jsonLd={jsonLd}>
+  <div class="page-head">
+    <div class="container">
+      <p class="eyebrow">{d.site.date}</p>
+      <h1>{C.h1}</h1>
+    </div>
+  </div>
+  <div class="container narrow">
+    <div class="faq">
+      {C.items.map(([q, a]) => (
+        <details>
+          <summary><h2>{q}</h2></summary>
+          <p set:html={a} />
+        </details>
+      ))}
+    </div>
+    <SafetyNotice lang={lang} />
+  </div>
+</Base>
+
+<style>
+  .faq details {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    margin-bottom: 10px;
+  }
+  .faq summary {
+    cursor: pointer;
+    padding: 14px 18px;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+  }
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq summary::after {
+    content: '+';
+    font-size: 1.4rem;
+    color: var(--turquoise);
+    flex-shrink: 0;
+  }
+  .faq details[open] summary::after {
+    content: '−';
+  }
+  .faq h2 {
+    font-size: 1.08rem;
+    margin: 0;
+  }
+  .faq p {
+    padding: 0 18px 16px;
+    margin: 0;
+    color: var(--muted);
+  }
+</style>

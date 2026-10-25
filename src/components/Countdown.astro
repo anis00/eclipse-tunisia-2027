@@ -1,0 +1,99 @@
+---
+import { t } from '../i18n/ui.ts';
+import { LANG_META, type Lang } from '../i18n/config.ts';
+
+interface Props {
+  lang: Lang;
+  /** Target instant (ISO, UTC) */
+  target: string;
+}
+const { lang, target } = Astro.props;
+const d = t(lang).countdown;
+const units = [
+  ['days', d.days],
+  ['hours', d.hours],
+  ['minutes', d.minutes],
+  ['seconds', d.seconds],
+] as const;
+---
+
+<section class="countdown" aria-labelledby="cd-label" data-target={target} data-locale={LANG_META[lang].locale} data-over={d.over}>
+  <h2 id="cd-label" class="visually-hidden">{d.label}</h2>
+  <div class="cells" role="timer" aria-live="off" aria-atomic="true">
+    {units.map(([key, label]) => (
+      <div class="cell">
+        <span class="value" data-unit={key}>–</span>
+        <span class="unit">{label}</span>
+      </div>
+    ))}
+  </div>
+  <p class="ref">{d.reference}</p>
+</section>
+
+<script>
+  function start(el: HTMLElement) {
+    const target = Date.parse(el.dataset.target!);
+    const fmt = new Intl.NumberFormat(el.dataset.locale, { minimumIntegerDigits: 2 });
+    const cells = Object.fromEntries(
+      [...el.querySelectorAll<HTMLElement>('[data-unit]')].map((c) => [c.dataset.unit!, c]),
+    );
+    const tick = () => {
+      const ms = target - Date.now();
+      if (ms <= 0) {
+        el.querySelector('.cells')!.textContent = el.dataset.over!;
+        return false;
+      }
+      const s = Math.floor(ms / 1000);
+      const v = { days: Math.floor(s / 86400), hours: Math.floor(s / 3600) % 24, minutes: Math.floor(s / 60) % 60, seconds: s % 60 };
+      for (const [k, val] of Object.entries(v)) if (cells[k]) cells[k].textContent = fmt.format(val);
+      return true;
+    };
+    if (tick()) {
+      const id = setInterval(() => tick() || clearInterval(id), 1000);
+    }
+  }
+  document.querySelectorAll<HTMLElement>('.countdown').forEach(start);
+</script>
+
+<style>
+  .countdown {
+    margin-block: 26px 8px;
+  }
+  .cells {
+    display: flex;
+    gap: clamp(8px, 2vw, 16px);
+    flex-wrap: wrap;
+  }
+  .cell {
+    min-width: clamp(72px, 18vw, 104px);
+    padding: 12px 10px 10px;
+    background: rgba(10, 16, 40, 0.7);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    text-align: center;
+    backdrop-filter: blur(4px);
+  }
+  .value {
+    display: block;
+    font-size: clamp(1.7rem, 5vw, 2.6rem);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .unit {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+  :global(html[lang='ar']) .unit {
+    letter-spacing: 0;
+    font-size: 0.9rem;
+  }
+  .ref {
+    font-size: 0.85rem;
+    color: var(--faint);
+    margin-top: 10px;
+  }
+</style>

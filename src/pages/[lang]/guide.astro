@@ -1,0 +1,11 @@
+---
+import ProsePage from '../../components/ProsePage.astro';
+import { LANGS, type Lang } from '../../i18n/config.ts';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+---
+
+<ProsePage lang={lang} slug="guide" safety />

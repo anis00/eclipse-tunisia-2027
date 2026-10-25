@@ -1,0 +1,53 @@
+---
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Sources from '../../../components/Sources.astro';
+import { LANGS, href, type Lang } from '../../../i18n/config.ts';
+import { t } from '../../../i18n/ui.ts';
+import { colon, formatDate } from '../../../lib/format.ts';
+import { newsFor, newsSlug, type NewsEntry } from '../../../lib/news.ts';
+
+export async function getStaticPaths() {
+  const out = [];
+  for (const lang of LANGS) {
+    const items = await newsFor(lang);
+    // Languages in which the same article exists (shared translationKey), for hreflang.
+    for (const e of items) out.push({ params: { lang, slug: newsSlug(e) }, props: { entry: e } });
+  }
+  return out;
+}
+const lang = Astro.params.lang as Lang;
+const { entry } = Astro.props as { entry: NewsEntry };
+const d = t(lang);
+const { Content } = await render(entry);
+const translations = (await Promise.all(LANGS.map(async (l) => ({ l, list: await newsFor(l) }))))
+  .filter(({ list }) => list.some((x) => x.data.translationKey === entry.data.translationKey && newsSlug(x) === newsSlug(entry)))
+  .map(({ l }) => l);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'NewsArticle',
+  headline: entry.data.title,
+  description: entry.data.description,
+  datePublished: entry.data.date.toISOString().slice(0, 10),
+  dateModified: (entry.data.updated ?? entry.data.date).toISOString().slice(0, 10),
+  inLanguage: lang,
+  publisher: { '@type': 'Organization', name: 'Eclipse in Tunisia 2027' },
+};
+---
+
+<Base lang={lang} path={`news/${newsSlug(entry)}`} title={entry.data.title} description={entry.data.description} jsonLd={jsonLd} type="article" alternates={translations}>
+  <div class="page-head">
+    <div class="container narrow">
+      <p class="eyebrow"><a href={href(lang, 'news')}>{d.nav.news}</a></p>
+      <h1>{entry.data.title}</h1>
+      <p class="meta-line">
+        {d.common.published}{colon(lang)}<time datetime={entry.data.date.toISOString().slice(0, 10)}>{formatDate(entry.data.date, lang)}</time>
+        {entry.data.updated && <> · {d.common.updated}{colon(lang)}{formatDate(entry.data.updated, lang)}</>}
+      </p>
+    </div>
+  </div>
+  <article class="container narrow prose">
+    <Content />
+    <Sources lang={lang} sources={entry.data.sources} />
+  </article>
+</Base>

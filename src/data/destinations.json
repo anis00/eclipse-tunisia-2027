@@ -1,0 +1,337 @@
+{
+ "verified": "2026-10-25",
+ "note": "Astronomical values are NOT stored here: they are computed at build time from the Besselian elements for the coordinates of `cityId` (src/data/cities.json). Practical information must be re-checked before publication of each update.",
+ "destinations": [
+  {
+   "id": "sfax",
+   "cityId": "sfax",
+   "governorate": "TN-61",
+   "airports": [{ "iata": "SFA", "name": { "en": "Sfax–Thyna International Airport", "fr": "Aéroport international de Sfax-Thyna", "ar": "مطار صفاقس طينة الدولي" } }],
+   "unesco": [],
+   "text": {
+    "en": {
+      "summary": "Tunisia's second city lies almost on the central line: it is the largest town in the country to enjoy one of the longest totalities.",
+      "description": "Sfax is an active port and economic centre with a walled medina that is still very much a working city. Its position next to the central line, on the dry Gulf of Gabès coast, makes it a natural base for observers who want both long totality and urban services.",
+      "access": "Sfax–Thyna airport, the Tunis–Sfax railway line operated by SNCFT, and the A1 motorway from Tunis. Ferries link Sfax to the Kerkennah Islands.",
+      "nearby": "Medina and ramparts of Sfax; Kerkennah Islands; Thyna archaeological site."
+    },
+    "fr": {
+      "summary": "Deuxième ville du pays, Sfax se trouve presque sur la ligne centrale : c'est la plus grande ville tunisienne à bénéficier d'une des plus longues totalités.",
+      "description": "Port actif et centre économique, Sfax possède une médina fortifiée toujours très vivante. Sa position près de la ligne centrale, sur la côte sèche du golfe de Gabès, en fait une base naturelle pour qui veut à la fois une longue totalité et les services d'une grande ville.",
+      "access": "Aéroport de Sfax-Thyna, ligne ferroviaire Tunis–Sfax exploitée par la SNCFT et autoroute A1 depuis Tunis. Des ferries relient Sfax aux îles Kerkennah.",
+      "nearby": "Médina et remparts de Sfax ; îles Kerkennah ; site archéologique de Thyna."
+    },
+    "ar": {
+      "summary": "تقع صفاقس، ثاني أكبر مدن البلاد، على مقربة شديدة من الخط المركزي، فهي أكبر مدينة تونسية تحظى بواحدة من أطول فترات الكسوف الكلي.",
+      "description": "صفاقس ميناء نشيط ومركز اقتصادي، ولها مدينة عتيقة محاطة بالأسوار ما زالت تنبض بالحياة. موقعها قرب الخط المركزي على ساحل خليج قابس الجاف يجعلها قاعدة مثالية لمن يريد كسوفًا كليًا طويلًا مع خدمات مدينة كبرى.",
+      "access": "مطار صفاقس طينة، وخط السكة الحديدية تونس–صفاقس الذي تستغله الشركة الوطنية للسكك الحديدية التونسية، والطريق السيارة A1 انطلاقًا من تونس. وتربط العبّارات صفاقس بجزر قرقنة.",
+      "nearby": "المدينة العتيقة وأسوار صفاقس؛ جزر قرقنة؛ الموقع الأثري بطينة."
+    }
+   }
+  },
+  {
+   "id": "djerba",
+   "cityId": "houmt-souk",
+   "governorate": "TN-82",
+   "airports": [{ "iata": "DJE", "name": { "en": "Djerba–Zarzis International Airport", "fr": "Aéroport international de Djerba-Zarzis", "ar": "مطار جربة جرجيس الدولي" } }],
+   "unesco": [{ "url": "https://whc.unesco.org/en/list/1640", "name": { "en": "Djerba: testimony to a settlement pattern in an island territory (2023)", "fr": "Djerba : témoignage d'un mode d'occupation d'un territoire insulaire (2023)", "ar": "جربة: شاهد على نمط استيطان في إقليم جزري (2023)" } }],
+   "text": {
+    "en": {
+      "summary": "The whole island lies inside the path of totality, with durations that vary from about four to almost five minutes depending on where you stand.",
+      "description": "Djerba is one of Tunisia's main seaside destinations and has a large choice of accommodation. The path crosses the island diagonally: the north (Houmt Souk) gets longer totality than the south-west (Ajim). Use the calculator to compare points before choosing a site.",
+      "access": "Djerba–Zarzis international airport; road causeway (El Kantara) and ferries from Jorf to Ajim.",
+      "nearby": "Houmt Souk; El Ghriba synagogue; Guellala pottery village; Zarzis coast."
+    },
+    "fr": {
+      "summary": "L'île entière se trouve dans la bande de totalité, avec des durées allant d'environ quatre minutes à près de cinq minutes selon l'endroit.",
+      "description": "Djerba est l'une des principales destinations balnéaires de Tunisie et offre un large choix d'hébergements. La bande traverse l'île en diagonale : le nord (Houmt Souk) bénéficie d'une totalité plus longue que le sud-ouest (Ajim). Utilisez le calculateur pour comparer plusieurs points avant de choisir un site.",
+      "access": "Aéroport international de Djerba-Zarzis ; chaussée romaine (El Kantara) et bacs entre Jorf et Ajim.",
+      "nearby": "Houmt Souk ; synagogue de la Ghriba ; village potier de Guellala ; côte de Zarzis."
+    },
+    "ar": {
+      "summary": "تقع الجزيرة بأكملها داخل نطاق الكسوف الكلي، وتتراوح مدته بين أربع دقائق تقريبًا وما يقارب خمس دقائق حسب الموقع.",
+      "description": "جربة من أبرز الوجهات الساحلية في تونس وتوفر خيارات إقامة كثيرة. يعبر النطاق الجزيرة بشكل مائل: يستفيد الشمال (حومة السوق) من كسوف كلي أطول من الجنوب الغربي (أجيم). استعمل الحاسبة لمقارنة عدة نقاط قبل اختيار موقع الرصد.",
+      "access": "مطار جربة جرجيس الدولي؛ الطريق الروماني (القنطرة) والعبّارات بين الجرف وأجيم.",
+      "nearby": "حومة السوق؛ كنيس الغريبة؛ قرية قلالة للفخار؛ ساحل جرجيس."
+    }
+   }
+  },
+  {
+   "id": "el-jem",
+   "cityId": "el-jem",
+   "governorate": "TN-53",
+   "airports": [],
+   "unesco": [{ "url": "https://whc.unesco.org/en/list/38", "name": { "en": "Amphitheatre of El Jem (1979)", "fr": "Amphithéâtre d'El Jem (1979)", "ar": "مسرح الجم الأثري (1979)" } }],
+   "text": {
+    "en": {
+      "summary": "A Roman amphitheatre listed as a World Heritage site, well inside the path, with more than four minutes of totality.",
+      "description": "El Jem is a small town dominated by one of the best preserved Roman amphitheatres in the world. It sits between Sousse and Sfax on the main road and railway, which makes it easy to reach on the day.",
+      "access": "Tunis–Sousse–Sfax railway line (SNCFT station in El Jem) and the A1 motorway. The nearest airports are Monastir and Sfax.",
+      "nearby": "Amphitheatre and archaeological museum of El Jem; Mahdia coast."
+    },
+    "fr": {
+      "summary": "Un amphithéâtre romain inscrit au patrimoine mondial, bien à l'intérieur de la bande, avec plus de quatre minutes de totalité.",
+      "description": "El Jem est une petite ville dominée par l'un des amphithéâtres romains les mieux conservés au monde. Elle se trouve entre Sousse et Sfax, sur l'axe routier et ferroviaire principal, ce qui la rend facile d'accès le jour de l'éclipse.",
+      "access": "Ligne ferroviaire Tunis–Sousse–Sfax (gare SNCFT d'El Jem) et autoroute A1. Les aéroports les plus proches sont Monastir et Sfax.",
+      "nearby": "Amphithéâtre et musée archéologique d'El Jem ; côte de Mahdia."
+    },
+    "ar": {
+      "summary": "مسرح روماني مدرج في قائمة التراث العالمي، يقع داخل النطاق بوضوح، مع أكثر من أربع دقائق من الكسوف الكلي.",
+      "description": "الجم مدينة صغيرة يهيمن عليها أحد أفضل المسارح الرومانية حفظًا في العالم. تقع بين سوسة وصفاقس على المحور الرئيسي للطرقات والسكك الحديدية، مما يجعل الوصول إليها سهلًا يوم الكسوف.",
+      "access": "خط السكة الحديدية تونس–سوسة–صفاقس (محطة الجم) والطريق السيارة A1. أقرب المطارات هي المنستير وصفاقس.",
+      "nearby": "المسرح الأثري ومتحف الجم؛ ساحل المهدية."
+    }
+   }
+  },
+  {
+   "id": "gabes",
+   "cityId": "gabes",
+   "governorate": "TN-81",
+   "airports": [{ "iata": "GAE", "name": { "en": "Gabès–Matmata International Airport", "fr": "Aéroport international de Gabès-Matmata", "ar": "مطار قابس مطماطة الدولي" } }],
+   "unesco": [],
+   "text": {
+    "en": {
+      "summary": "A coastal oasis city in the southern half of the path, with about four minutes of totality.",
+      "description": "Gabès is known for its seaside oasis, a rare meeting of palm grove and sea. It is a gateway to the Matmata hills and the Dahar. Note that Matmata village itself lies just outside the computed path (about 2 km), within the margin of uncertainty: do not count on totality there.",
+      "access": "Gabès–Matmata airport, railway from Tunis and Sfax, and the coastal road.",
+      "nearby": "Gabès oasis; Chenini of Gabès; Matmata troglodyte dwellings (just outside totality)."
+    },
+    "fr": {
+      "summary": "Ville-oasis littorale située dans la moitié sud de la bande, avec environ quatre minutes de totalité.",
+      "description": "Gabès est connue pour son oasis maritime, une rencontre rare entre palmeraie et mer. C'est une porte d'entrée vers les monts de Matmata et le Dahar. Attention : le village de Matmata lui-même se trouve juste en dehors de la bande calculée (environ 2 km), dans la marge d'incertitude : ne comptez pas sur la totalité à cet endroit.",
+      "access": "Aéroport de Gabès-Matmata, voie ferrée depuis Tunis et Sfax, route côtière.",
+      "nearby": "Oasis de Gabès ; Chenini de Gabès ; habitat troglodytique de Matmata (juste hors totalité)."
+    },
+    "ar": {
+      "summary": "مدينة واحة ساحلية في النصف الجنوبي من النطاق، مع نحو أربع دقائق من الكسوف الكلي.",
+      "description": "تشتهر قابس بواحتها البحرية، وهي لقاء نادر بين غابة النخيل والبحر. وهي بوابة نحو جبال مطماطة والظاهر. تنبيه: تقع قرية مطماطة نفسها خارج النطاق المحسوب بحوالي 2 كم، أي ضمن هامش عدم اليقين، فلا تعوّل على رؤية الكسوف الكلي هناك.",
+      "access": "مطار قابس مطماطة، والسكة الحديدية من تونس وصفاقس، والطريق الساحلية.",
+      "nearby": "واحة قابس؛ شنني قابس؛ المساكن الحفرية في مطماطة (خارج الكسوف الكلي بقليل)."
+    }
+   }
+  },
+  {
+   "id": "gafsa",
+   "cityId": "gafsa",
+   "governorate": "TN-71",
+   "airports": [{ "iata": "GAF", "name": { "en": "Gafsa–Ksar International Airport", "fr": "Aéroport international de Gafsa-Ksar", "ar": "مطار قفصة القصر الدولي" } }],
+   "unesco": [],
+   "text": {
+    "en": {
+      "summary": "An inland city close to the central line, with more than five minutes of totality.",
+      "description": "Gafsa is an ancient oasis town and the capital of the phosphate basin. Its inland location places it close to the central line with a long totality. Morning heat in early August is significant: plan shade and water.",
+      "access": "Gafsa–Ksar airport (limited scheduled service), railway and road links to Sfax and Tunis.",
+      "nearby": "Roman pools of Gafsa; Metlaoui and the Selja gorge."
+    },
+    "fr": {
+      "summary": "Ville de l'intérieur proche de la ligne centrale, avec plus de cinq minutes de totalité.",
+      "description": "Gafsa est une ancienne ville-oasis et la capitale du bassin minier des phosphates. Sa position intérieure la place près de la ligne centrale, avec une longue totalité. La chaleur matinale début août est importante : prévoyez ombre et eau.",
+      "access": "Aéroport de Gafsa-Ksar (dessertes régulières limitées), liaisons ferroviaires et routières vers Sfax et Tunis.",
+      "nearby": "Piscines romaines de Gafsa ; Metlaoui et les gorges de Selja."
+    },
+    "ar": {
+      "summary": "مدينة داخلية قريبة من الخط المركزي، مع أكثر من خمس دقائق من الكسوف الكلي.",
+      "description": "قفصة مدينة واحة عريقة وعاصمة الحوض المنجمي للفسفاط. يضعها موقعها الداخلي قرب الخط المركزي مع كسوف كلي طويل. الحرارة الصباحية في أوائل أوت مرتفعة، فاحرص على توفير الظل والماء.",
+      "access": "مطار قفصة القصر (رحلات منتظمة محدودة)، وروابط بالسكك الحديدية والطرقات نحو صفاقس وتونس.",
+      "nearby": "الأحواض الرومانية بقفصة؛ المتلوي ومضيق السلجة."
+    }
+   }
+  },
+  {
+   "id": "sidi-bouzid",
+   "cityId": "sidi-bouzid",
+   "governorate": "TN-43",
+   "airports": [],
+   "unesco": [],
+   "text": {
+    "en": {
+      "summary": "A central Tunisian city very close to the central line, with about five and a half minutes of totality.",
+      "description": "Sidi Bouzid lies on the steppe plains of central Tunisia. It is less touristic than the coast, but its position on the central line and its open horizons are favourable for observation.",
+      "access": "By road from Sfax (about 2 hours) or Kairouan. Nearest airports: Sfax and Gafsa.",
+      "nearby": "Steppe landscapes of central Tunisia; Sbeïtla (Sufetula) to the west."
+    },
+    "fr": {
+      "summary": "Ville du centre tunisien très proche de la ligne centrale, avec environ cinq minutes et demie de totalité.",
+      "description": "Sidi Bouzid se trouve dans les plaines steppiques du centre du pays. Moins touristique que la côte, elle bénéficie d'une position sur la ligne centrale et d'horizons dégagés favorables à l'observation.",
+      "access": "Par la route depuis Sfax ou Kairouan. Aéroports les plus proches : Sfax et Gafsa.",
+      "nearby": "Paysages steppiques du centre ; Sbeïtla (Sufetula) à l'ouest."
+    },
+    "ar": {
+      "summary": "مدينة في الوسط التونسي قريبة جدًا من الخط المركزي، مع نحو خمس دقائق ونصف من الكسوف الكلي.",
+      "description": "تقع سيدي بوزيد في السهول السهبية بوسط البلاد. هي أقل سياحية من الساحل، لكن موقعها على الخط المركزي وآفاقها المفتوحة ملائمة للرصد.",
+      "access": "عبر الطريق انطلاقًا من صفاقس أو القيروان. أقرب المطارات: صفاقس وقفصة.",
+      "nearby": "المشاهد السهبية في الوسط؛ سبيطلة (سوفيتولا) غربًا."
+    }
+   }
+  },
+  {
+   "id": "sbeitla",
+   "cityId": "sbeitla",
+   "governorate": "TN-42",
+   "airports": [],
+   "unesco": [],
+   "advisory": true,
+   "text": {
+    "en": {
+      "summary": "The Roman city of Sufetula, with its three temples, inside the path with more than five minutes of totality.",
+      "description": "Sbeïtla is home to the ruins of Sufetula, one of the most impressive Roman sites in the country. It is located in the Kasserine governorate: some mountainous and border areas of this region are subject to official travel warnings, so check them before planning a trip.",
+      "access": "By road from Kairouan, Sidi Bouzid or Kasserine. No airport nearby.",
+      "nearby": "Archaeological site of Sufetula; Kasserine."
+    },
+    "fr": {
+      "summary": "La cité romaine de Sufetula et ses trois temples, dans la bande avec plus de cinq minutes de totalité.",
+      "description": "Sbeïtla abrite les ruines de Sufetula, l'un des sites romains les plus impressionnants du pays. Elle se trouve dans le gouvernorat de Kasserine : certaines zones montagneuses et frontalières de cette région font l'objet d'avertissements officiels aux voyageurs, à consulter avant tout déplacement.",
+      "access": "Par la route depuis Kairouan, Sidi Bouzid ou Kasserine. Pas d'aéroport à proximité.",
+      "nearby": "Site archéologique de Sufetula ; Kasserine."
+    },
+    "ar": {
+      "summary": "مدينة سوفيتولا الرومانية بمعابدها الثلاثة، داخل النطاق مع أكثر من خمس دقائق من الكسوف الكلي.",
+      "description": "تحتضن سبيطلة أطلال سوفيتولا، أحد أروع المواقع الرومانية في البلاد. تقع في ولاية القصرين، وبعض المناطق الجبلية والحدودية في هذه الجهة مشمولة بتحذيرات رسمية للمسافرين، لذا يجب الاطلاع عليها قبل أي تنقل.",
+      "access": "عبر الطريق من القيروان أو سيدي بوزيد أو القصرين. لا يوجد مطار قريب.",
+      "nearby": "الموقع الأثري سوفيتولا؛ القصرين."
+    }
+   }
+  },
+  {
+   "id": "kairouan",
+   "cityId": "kairouan",
+   "governorate": "TN-41",
+   "airports": [],
+   "unesco": [{ "url": "https://whc.unesco.org/en/list/499", "name": { "en": "Kairouan (1988)", "fr": "Kairouan (1988)", "ar": "القيروان (1988)" } }],
+   "text": {
+    "en": {
+      "summary": "A holy city and World Heritage site near the northern limit of the path: totality is short here and lengthens quickly towards the south.",
+      "description": "Kairouan is famous for its Great Mosque and its medina. The city centre lies about 15 km inside the northern limit, so totality lasts under three minutes and the exact value is sensitive to the precise position and to the lunar limb profile. Moving 20–30 km south adds more than a minute.",
+      "access": "By road from Tunis, Sousse or Sfax. Nearest airports: Monastir and Enfidha–Hammamet.",
+      "nearby": "Great Mosque of Kairouan; Aghlabid basins; medina."
+    },
+    "fr": {
+      "summary": "Ville sainte inscrite au patrimoine mondial, près de la limite nord : la totalité y est courte et s'allonge rapidement vers le sud.",
+      "description": "Kairouan est célèbre pour sa Grande Mosquée et sa médina. Le centre-ville se trouve à environ 15 km à l'intérieur de la limite nord : la totalité y dure moins de trois minutes, et la valeur exacte dépend fortement de la position et du profil du limbe lunaire. Se déplacer de 20 à 30 km vers le sud ajoute plus d'une minute.",
+      "access": "Par la route depuis Tunis, Sousse ou Sfax. Aéroports les plus proches : Monastir et Enfidha-Hammamet.",
+      "nearby": "Grande Mosquée de Kairouan ; bassins des Aghlabides ; médina."
+    },
+    "ar": {
+      "summary": "مدينة مقدسة مدرجة في قائمة التراث العالمي، قرب الحد الشمالي للنطاق: الكسوف الكلي فيها قصير ويطول بسرعة كلما اتجهنا جنوبًا.",
+      "description": "تشتهر القيروان بجامعها الكبير ومدينتها العتيقة. يقع وسط المدينة على بعد حوالي 15 كم فقط داخل الحد الشمالي، فيدوم الكسوف الكلي أقل من ثلاث دقائق، وتتأثر القيمة الدقيقة بالموقع وبتضاريس حافة القمر. التنقل بين 20 و30 كم جنوبًا يضيف أكثر من دقيقة.",
+      "access": "عبر الطريق من تونس أو سوسة أو صفاقس. أقرب المطارات: المنستير والنفيضة الحمامات.",
+      "nearby": "جامع القيروان الكبير؛ فسقيات الأغالبة؛ المدينة العتيقة."
+    }
+   }
+  },
+  {
+   "id": "mahdia",
+   "cityId": "mahdia",
+   "governorate": "TN-53",
+   "airports": [],
+   "unesco": [],
+   "text": {
+    "en": {
+      "summary": "A seaside town near the northern limit of the path, with less than three minutes of totality in the old town.",
+      "description": "Mahdia, the former Fatimid capital, stands on a peninsula with beaches and a hotel zone. Totality is short here because the town is close to the northern limit; the coast towards Chebba, further south, gets much longer totality.",
+      "access": "Light rail (Métro du Sahel) from Monastir and Sousse; nearest airport: Monastir.",
+      "nearby": "Skifa el Kahla gate and Fatimid medina; Chebba and Ksour Essaf coast to the south."
+    },
+    "fr": {
+      "summary": "Station balnéaire proche de la limite nord, avec moins de trois minutes de totalité dans la vieille ville.",
+      "description": "Mahdia, ancienne capitale fatimide, occupe une presqu'île bordée de plages et d'une zone hôtelière. La totalité y est courte car la ville est proche de la limite nord ; la côte vers Chebba, plus au sud, bénéficie d'une totalité bien plus longue.",
+      "access": "Métro du Sahel depuis Monastir et Sousse ; aéroport le plus proche : Monastir.",
+      "nearby": "Porte Skifa el Kahla et médina fatimide ; côte de Ksour Essaf et Chebba au sud."
+    },
+    "ar": {
+      "summary": "مدينة ساحلية قرب الحد الشمالي للنطاق، مع أقل من ثلاث دقائق من الكسوف الكلي في المدينة العتيقة.",
+      "description": "المهدية، العاصمة الفاطمية القديمة، تقع على شبه جزيرة تحيط بها الشواطئ ومنطقة سياحية. الكسوف الكلي فيها قصير لقربها من الحد الشمالي، بينما يستفيد الساحل الممتد جنوبًا نحو الشابة من كسوف كلي أطول بكثير.",
+      "access": "مترو الساحل من المنستير وسوسة؛ أقرب مطار: المنستير.",
+      "nearby": "باب السقيفة الكحلة والمدينة الفاطمية؛ ساحل قصور الساف والشابة جنوبًا."
+    }
+   }
+  },
+  {
+   "id": "tozeur",
+   "cityId": "tozeur",
+   "governorate": "TN-72",
+   "airports": [{ "iata": "TOE", "name": { "en": "Tozeur–Nefta International Airport", "fr": "Aéroport international de Tozeur-Nefta", "ar": "مطار توزر نفطة الدولي" } }],
+   "unesco": [],
+   "text": {
+    "en": {
+      "summary": "A Saharan oasis near the southern limit: totality is short in the town, but the mountain oases to the north are well inside the path.",
+      "description": "Tozeur is the gateway to the Chott el Jerid salt lake and the mountain oases of Chebika, Tamerza and Midès. The town lies close to the southern limit, so totality is under two minutes there, while Chebika gets more than four minutes. Nefta, to the west, lies just outside the computed path.",
+      "access": "Tozeur–Nefta airport (seasonal and limited services); road from Gafsa.",
+      "nearby": "Palm grove and old quarter of Ouled el Hadef; Chott el Jerid; Chebika, Tamerza and Midès."
+    },
+    "fr": {
+      "summary": "Oasis saharienne près de la limite sud : la totalité est courte en ville, mais les oasis de montagne au nord sont bien dans la bande.",
+      "description": "Tozeur est la porte du chott el-Jérid et des oasis de montagne de Chebika, Tamerza et Midès. La ville est proche de la limite sud : la totalité y dure moins de deux minutes, alors que Chebika en bénéficie de plus de quatre. Nefta, à l'ouest, se trouve juste en dehors de la bande calculée.",
+      "access": "Aéroport de Tozeur-Nefta (dessertes saisonnières et limitées) ; route depuis Gafsa.",
+      "nearby": "Palmeraie et quartier ancien d'Ouled el Hadef ; chott el-Jérid ; Chebika, Tamerza et Midès."
+    },
+    "ar": {
+      "summary": "واحة صحراوية قرب الحد الجنوبي: الكسوف الكلي قصير في المدينة، لكن الواحات الجبلية شمالًا تقع داخل النطاق بوضوح.",
+      "description": "توزر بوابة شط الجريد والواحات الجبلية الشبيكة وتمغزة وميداس. تقع المدينة قرب الحد الجنوبي، فيدوم الكسوف الكلي فيها أقل من دقيقتين، بينما تحظى الشبيكة بأكثر من أربع دقائق. أما نفطة غربًا فتقع خارج النطاق المحسوب بقليل.",
+      "access": "مطار توزر نفطة (رحلات موسمية ومحدودة)؛ الطريق من قفصة.",
+      "nearby": "واحة النخيل وحي أولاد الهادف العتيق؛ شط الجريد؛ الشبيكة وتمغزة وميداس."
+    }
+   }
+  },
+  {
+   "id": "sousse-monastir",
+   "cityId": "sousse",
+   "governorate": "TN-51",
+   "airports": [
+    { "iata": "MIR", "name": { "en": "Monastir Habib Bourguiba International Airport", "fr": "Aéroport international Monastir Habib-Bourguiba", "ar": "مطار المنستير الحبيب بورقيبة الدولي" } },
+    { "iata": "NBE", "name": { "en": "Enfidha–Hammamet International Airport", "fr": "Aéroport international d'Enfidha-Hammamet", "ar": "مطار النفيضة الحمامات الدولي" } }
+   ],
+   "unesco": [{ "url": "https://whc.unesco.org/en/list/498", "name": { "en": "Medina of Sousse (1988)", "fr": "Médina de Sousse (1988)", "ar": "مدينة سوسة العتيقة (1988)" } }],
+   "text": {
+    "en": {
+      "summary": "Important: Sousse and Monastir lie just OUTSIDE the path of totality. A short trip south is enough to see the total eclipse.",
+      "description": "These major resorts will see a very deep partial eclipse (about 99.9% of the Sun's surface covered), but not totality: the remaining thin crescent is still dangerous and keeps the sky bright. The northern limit passes about 10 km south of the city centres. Less than an hour's drive south is enough: Mahdia gets about 2¾ minutes of totality, Ksour Essaf about 3½ minutes and El Jem more than 4 minutes. Check your exact observing point with the calculator.",
+      "access": "Monastir and Enfidha–Hammamet airports; Tunis–Sousse–Sfax railway; A1 motorway; Métro du Sahel to Mahdia.",
+      "nearby": "Medina and ribat of Sousse; ribat of Monastir; El Jem to the south."
+    },
+    "fr": {
+      "summary": "Important : Sousse et Monastir sont juste EN DEHORS de la bande de totalité. Un court trajet vers le sud suffit pour voir l'éclipse totale.",
+      "description": "Ces grandes stations balnéaires verront une éclipse partielle très profonde (environ 99,9 % de la surface du Soleil masquée), mais pas la totalité : le mince croissant restant est toujours dangereux et maintient le ciel lumineux. La limite nord passe à environ 10 km au sud des centres-villes. Moins d'une heure de route vers le sud suffit : Mahdia bénéficie d'environ 2 min 45 s de totalité, Ksour Essaf d'environ 3 min 30 s et El Jem de plus de 4 minutes. Vérifiez votre point d'observation exact avec le calculateur.",
+      "access": "Aéroports de Monastir et d'Enfidha-Hammamet ; ligne ferroviaire Tunis–Sousse–Sfax ; autoroute A1 ; Métro du Sahel vers Mahdia.",
+      "nearby": "Médina et ribat de Sousse ; ribat de Monastir ; El Jem au sud."
+    },
+    "ar": {
+      "summary": "تنبيه هام: تقع سوسة والمنستير خارج نطاق الكسوف الكلي بقليل. تكفي رحلة قصيرة نحو الجنوب لمشاهدة الكسوف الكلي.",
+      "description": "ستشهد هاتان المدينتان السياحيتان كسوفًا جزئيًا عميقًا جدًا (حوالي 99.9٪ من مساحة قرص الشمس)، لكن دون كسوف كلي: الهلال الرقيق المتبقي يظل خطيرًا على العين ويُبقي السماء مضيئة. يمر الحد الشمالي على بعد حوالي 10 كم جنوب وسط المدينتين. تكفي أقل من ساعة بالسيارة نحو الجنوب: تحظى المهدية بحوالي دقيقتين و45 ثانية من الكسوف الكلي، وقصور الساف بحوالي ثلاث دقائق ونصف، والجم بأكثر من أربع دقائق. تحقق من نقطة الرصد بدقة باستعمال الحاسبة.",
+      "access": "مطارا المنستير والنفيضة الحمامات؛ خط السكة الحديدية تونس–سوسة–صفاقس؛ الطريق السيارة A1؛ مترو الساحل نحو المهدية.",
+      "nearby": "المدينة العتيقة ورباط سوسة؛ رباط المنستير؛ الجم جنوبًا."
+    }
+   }
+  },
+  {
+   "id": "tunis",
+   "cityId": "tunis",
+   "governorate": "TN-11",
+   "airports": [{ "iata": "TUN", "name": { "en": "Tunis–Carthage International Airport", "fr": "Aéroport international de Tunis-Carthage", "ar": "مطار تونس قرطاج الدولي" } }],
+   "unesco": [
+    { "url": "https://whc.unesco.org/en/list/36", "name": { "en": "Medina of Tunis (1979)", "fr": "Médina de Tunis (1979)", "ar": "مدينة تونس العتيقة (1979)" } },
+    { "url": "https://whc.unesco.org/en/list/37", "name": { "en": "Archaeological Site of Carthage (1979)", "fr": "Site archéologique de Carthage (1979)", "ar": "موقع قرطاج الأثري (1979)" } }
+   ],
+   "text": {
+    "en": {
+      "summary": "The capital sees a deep partial eclipse only (about 97% of the Sun covered). Totality requires travelling about 110 km south.",
+      "description": "Tunis is the main international gateway. During the eclipse the light will dim noticeably, but the Sun will never be completely hidden: eye protection is required throughout. To experience totality, plan to travel towards Kairouan, Mahdia, El Jem or Sfax — leave early, as traffic may be heavy on the day.",
+      "access": "Tunis–Carthage international airport; railway and A1 motorway to the Sahel and Sfax.",
+      "nearby": "Medina of Tunis; Carthage; Bardo National Museum; Sidi Bou Said."
+    },
+    "fr": {
+      "summary": "La capitale ne verra qu'une éclipse partielle profonde (environ 97 % du Soleil masqué). La totalité nécessite un trajet d'environ 110 km vers le sud.",
+      "description": "Tunis est la principale porte d'entrée internationale. Pendant l'éclipse, la lumière baissera sensiblement, mais le Soleil ne sera jamais entièrement caché : une protection oculaire est nécessaire du début à la fin. Pour vivre la totalité, prévoyez de rejoindre Kairouan, Mahdia, El Jem ou Sfax, en partant tôt car la circulation pourrait être dense ce jour-là.",
+      "access": "Aéroport international de Tunis-Carthage ; train et autoroute A1 vers le Sahel et Sfax.",
+      "nearby": "Médina de Tunis ; Carthage ; musée national du Bardo ; Sidi Bou Saïd."
+    },
+    "ar": {
+      "summary": "لن تشهد العاصمة سوى كسوف جزئي عميق (حوالي 97٪ من قرص الشمس). يتطلب الكسوف الكلي التنقل حوالي 110 كم جنوبًا.",
+      "description": "تونس هي البوابة الدولية الرئيسية. خلال الكسوف سينخفض الضوء بشكل ملحوظ، لكن الشمس لن تُحجب كليًا أبدًا، لذا تلزم حماية العينين طوال مدة الكسوف. لمعايشة الكسوف الكلي، خطط للتوجه نحو القيروان أو المهدية أو الجم أو صفاقس، وانطلق باكرًا لأن حركة المرور قد تكون كثيفة يومها.",
+      "access": "مطار تونس قرطاج الدولي؛ القطار والطريق السيارة A1 نحو الساحل وصفاقس.",
+      "nearby": "مدينة تونس العتيقة؛ قرطاج؛ متحف باردو الوطني؛ سيدي بوسعيد."
+    }
+   }
+  }
+ ]
+}

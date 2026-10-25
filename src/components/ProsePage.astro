@@ -1,0 +1,103 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import SafetyNotice from './SafetyNotice.astro';
+import Sources from './Sources.astro';
+import { colon, formatDate } from '../lib/format.ts';
+import { t } from '../i18n/ui.ts';
+import type { Lang, RouteKey } from '../i18n/config.ts';
+
+interface Props {
+  lang: Lang;
+  slug: RouteKey;
+  safety?: boolean;
+}
+const { lang, slug, safety = false } = Astro.props;
+const entry = await getEntry('pages', `${lang}/${slug}`);
+if (!entry) throw new Error(`Missing content: src/content/pages/${lang}/${slug}.md`);
+const { Content, headings } = await render(entry);
+const d = t(lang);
+const toc = headings.filter((h) => h.depth === 2);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: entry.data.title,
+  description: entry.data.description,
+  dateModified: entry.data.updated.toISOString().slice(0, 10),
+  inLanguage: lang,
+  publisher: { '@type': 'Organization', name: 'Eclipse in Tunisia 2027' },
+};
+---
+
+<Base lang={lang} path={slug} title={entry.data.title} description={entry.data.description} jsonLd={jsonLd} type="article">
+  <div class="page-head">
+    <div class="container">
+      <p class="eyebrow">{d.site.date}</p>
+      <h1>{entry.data.h1}</h1>
+      {entry.data.lead && <p class="lead">{entry.data.lead}</p>}
+      <p class="meta-line">{d.common.updated}{colon(lang)}{formatDate(entry.data.updated, lang)}</p>
+    </div>
+  </div>
+  <div class="container prose-layout">
+    {toc.length > 2 && (
+      <nav class="toc" aria-label={d.common.onThisPage}>
+        <p class="toc-title">{d.common.onThisPage}</p>
+        <ol>
+          {toc.map((h) => (
+            <li><a href={`#${h.slug}`}>{h.text}</a></li>
+          ))}
+        </ol>
+      </nav>
+    )}
+    <article class="prose">
+      {safety && <SafetyNotice lang={lang} compact />}
+      <Content />
+      <slot />
+      <Sources lang={lang} sources={entry.data.sources} />
+    </article>
+  </div>
+</Base>
+
+<style>
+  .prose-layout {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+  .toc {
+    position: sticky;
+    top: 84px;
+    font-size: 0.92rem;
+    border-inline-start: 2px solid var(--line);
+    padding-inline-start: 14px;
+    margin-top: 24px;
+  }
+  .toc-title {
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .toc a {
+    color: var(--muted);
+    text-decoration: none;
+    display: block;
+    padding: 4px 0;
+  }
+  .toc a:hover {
+    color: var(--ink);
+  }
+  @media (max-width: 900px) {
+    .prose-layout {
+      grid-template-columns: 1fr;
+    }
+    .toc {
+      position: static;
+    }
+  }
+</style>

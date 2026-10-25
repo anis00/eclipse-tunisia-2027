@@ -1,0 +1,231 @@
+---
+import Logo from './Logo.astro';
+import { LANGS, LANG_META, href, type Lang } from '../i18n/config.ts';
+import { t } from '../i18n/ui.ts';
+
+interface Props {
+  lang: Lang;
+  /** Route path without language prefix, used by the language switcher */
+  path: string;
+}
+const { lang, path } = Astro.props;
+const d = t(lang);
+const current = Astro.url.pathname;
+const items = [
+  ['map', d.nav.map],
+  ['calculator', d.nav.calculator],
+  ['guide', d.nav.guide],
+  ['destinations', d.nav.destinations],
+  ['weather', d.nav.weather],
+  ['science', d.nav.science],
+  ['faq', d.nav.faq],
+] as const;
+const isActive = (p: string) => current.startsWith(href(lang, p));
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href={href(lang)} aria-label={`${d.site.name} — ${d.nav.home}`}>
+      <Logo size={38} />
+      <span class="brand-text ltr" aria-hidden="true">
+        <span class="brand-name">ECLIPSE 2027</span>
+        <span class="brand-sub">TUNISIA</span>
+      </span>
+    </a>
+
+    <nav class="nav-desktop" aria-label={d.site.menu}>
+      <ul>
+        {items.map(([p, label]) => (
+          <li>
+            <a href={href(lang, p)} aria-current={isActive(p) ? 'page' : undefined}>{label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="tools">
+      <nav class="langs" aria-label={d.site.language}>
+        {LANGS.map((l) => (
+          <a
+            href={href(l, path)}
+            hreflang={l}
+            lang={l}
+            aria-current={l === lang ? 'true' : undefined}
+            title={LANG_META[l].label}
+          >
+            {l === 'ar' ? 'ع' : l.toUpperCase()}
+            <span class="visually-hidden"> — {LANG_META[l].label}</span>
+          </a>
+        ))}
+      </nav>
+
+      <details class="nav-mobile">
+        <summary class="btn btn-sm btn-ghost">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+          {d.site.menu}
+        </summary>
+        <nav aria-label={d.site.menu}>
+          <ul>
+            <li><a href={href(lang)}>{d.nav.home}</a></li>
+            {items.map(([p, label]) => (
+              <li>
+                <a href={href(lang, p)} aria-current={isActive(p) ? 'page' : undefined}>{label}</a>
+              </li>
+            ))}
+            <li><a href={href(lang, 'news')}>{d.nav.news}</a></li>
+            <li><a href={href(lang, 'sources')}>{d.nav.sources}</a></li>
+          </ul>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(8, 12, 32, 0.86);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 64px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    font-family: var(--font);
+  }
+  .brand-name {
+    font-size: 0.98rem;
+  }
+  .brand-sub {
+    font-size: 0.7rem;
+    color: var(--turquoise);
+    letter-spacing: 0.42em;
+  }
+  .nav-desktop {
+    flex: 1;
+  }
+  .nav-desktop ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+  }
+  .nav-desktop a,
+  .nav-mobile a {
+    display: block;
+    padding: 8px 9px;
+    border-radius: 8px;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.93rem;
+    white-space: nowrap;
+  }
+  .nav-desktop a:hover,
+  .nav-desktop a[aria-current='page'] {
+    color: var(--ink);
+    background: var(--surface);
+  }
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-inline-start: auto;
+  }
+  .langs {
+    display: flex;
+    gap: 2px;
+    background: var(--space);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px;
+  }
+  .langs a {
+    min-width: 36px;
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.82rem;
+  }
+  .langs a[aria-current='true'] {
+    background: var(--surface-2);
+    color: var(--ink);
+  }
+  .nav-mobile {
+    display: none;
+    position: relative;
+  }
+  .nav-mobile summary {
+    list-style: none;
+  }
+  .nav-mobile summary::-webkit-details-marker {
+    display: none;
+  }
+  .nav-mobile nav {
+    position: absolute;
+    inset-inline-end: 0;
+    top: calc(100% + 8px);
+    min-width: 240px;
+    background: var(--night-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 8px;
+  }
+  .nav-mobile ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-mobile li {
+    margin: 0;
+  }
+  .nav-mobile a {
+    padding: 11px 12px;
+  }
+  .nav-mobile a[aria-current='page'] {
+    color: var(--ink);
+    background: var(--surface);
+  }
+  @media (max-width: 1260px) {
+    .nav-desktop {
+      display: none;
+    }
+    .nav-mobile {
+      display: block;
+    }
+  }
+  @media (max-width: 420px) {
+    .brand-text {
+      display: none;
+    }
+  }
+</style>

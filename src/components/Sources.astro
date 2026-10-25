@@ -1,0 +1,32 @@
+---
+import { t } from '../i18n/ui.ts';
+import type { Lang } from '../i18n/config.ts';
+interface Props {
+  lang: Lang;
+  sources: { title: string; url: string; publisher?: string | undefined }[];
+}
+const { lang, sources } = Astro.props;
+---
+
+{
+  sources.length > 0 && (
+    <section class="sources-list" aria-labelledby="src-title">
+      <h2 id="src-title">{t(lang).common.sources}</h2>
+      <ul>
+        {sources.map((s) => (
+          <li>
+            {s.publisher && <span>{s.publisher} — </span>}
+            <a href={s.url} rel="noopener" lang="en" dir="ltr">{s.title}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .sources-list {
+    margin-top: 2.5em;
+    font-size: 0.95rem;
+  }
+</style>

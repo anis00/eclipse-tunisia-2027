@@ -1,0 +1,101 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { LANGS, href, type Lang } from '../../../i18n/config.ts';
+import { t } from '../../../i18n/ui.ts';
+import { climate, cityById, destinations } from '../../../lib/data.ts';
+import { formatDuration, formatObscuration, formatPercent, formatTime } from '../../../lib/format.ts';
+import { DEST_UI } from '../../../lib/destinations-i18n.ts';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const d = t(lang);
+const U = DEST_UI[lang];
+const items = destinations
+  .map((x) => ({ ...x, city: cityById(x.cityId), clim: climate.points.find((p) => p.id === x.id) }))
+  .sort((a, b) => (b.city.eclipse.centralDuration ?? 0) - (a.city.eclipse.centralDuration ?? 0) || b.city.eclipse.max!.magnitude - a.city.eclipse.max!.magnitude);
+const name = (x: (typeof items)[number]) => (x.id === 'sousse-monastir' ? `${x.city.name[lang]} / ${cityById('monastir').name[lang]}` : x.id === 'djerba' ? (lang === 'ar' ? 'جربة' : 'Djerba') : x.city.name[lang]);
+---
+
+<Base lang={lang} path="destinations" title={U.title} description={U.description}>
+  <div class="page-head">
+    <div class="container">
+      <p class="eyebrow">{d.site.date}</p>
+      <h1>{U.h1}</h1>
+      <p class="lead">{U.lead}</p>
+    </div>
+  </div>
+  <div class="container">
+    <p class="notice">{U.criteria}</p>
+    <div class="grid grid-3 dests">
+      {items.map((x) => {
+        const e = x.city.eclipse;
+        const total = e.kind === 'total';
+        return (
+          <a class="card dest" href={href(lang, `destinations/${x.id}`)}>
+            <span class={`badge ${total ? 'badge-total' : 'badge-partial'}`}>{total ? d.common.total : d.common.partial}</span>
+            <h2>{name(x)}</h2>
+            <p class="big">{total ? formatDuration(e.centralDuration!, lang) : formatObscuration(e.max!.obscuration, false, lang)}</p>
+            <p>{x.text[lang].summary}</p>
+          </a>
+        );
+      })}
+    </div>
+
+    <h2>{U.compareTitle}</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>{U.cols.map((c, i) => <th scope="col" class={i > 1 ? 'num' : undefined}>{c}</th>)}</tr>
+        </thead>
+        <tbody>
+          {items.map((x) => {
+            const e = x.city.eclipse;
+            const total = e.kind === 'total';
+            return (
+              <tr>
+                <th scope="row"><a href={href(lang, `destinations/${x.id}`)}>{name(x)}</a></th>
+                <td><span class={`badge ${total ? 'badge-total' : 'badge-partial'}`}>{total ? d.common.total : d.common.partial}</span></td>
+                <td class="num">{total ? formatDuration(e.centralDuration!, lang) : '—'}</td>
+                <td class="num">{total ? formatTime(e.c2!.time, lang) : '—'}</td>
+                <td class="num">{x.clim ? formatPercent(x.clim.clearShare / 100, lang, 0) : '—'}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+    <p class="meta-line">{d.common.localTime}. {U.climateNote}</p>
+  </div>
+</Base>
+
+<style>
+  .dests {
+    margin-block: 24px 40px;
+  }
+  .dest {
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .dest:hover {
+    border-color: var(--turquoise);
+    transform: translateY(-2px);
+  }
+  .dest h2 {
+    margin: 10px 0 4px;
+    font-size: 1.35rem;
+  }
+  .dest .big {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--sun-soft);
+    margin-bottom: 8px;
+  }
+  .dest p:last-child {
+    color: var(--muted);
+    margin: 0;
+    font-size: 0.95rem;
+  }
+</style>

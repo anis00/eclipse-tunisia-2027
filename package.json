@@ -1,0 +1,36 @@
+{
+  "name": "eclipse-in-tunisia-2027",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Eclipse in Tunisia 2027 \u2014 scientific, cartographic and travel portal for the total solar eclipse of 2 August 2027.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "data:path": "node --experimental-strip-types scripts/generate-path.ts",
+    "data:validate": "node --experimental-strip-types scripts/validate-engine.ts",
+    "prebuild": "node scripts/copy-vendor.mjs",
+    "predev": "node scripts/copy-vendor.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@mapbox/mapbox-gl-rtl-text": "0.3.0",
+    "astro": "7.4.1",
+    "maplibre-gl": "^6.16.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@playwright/test": "^1.64.1",
+    "astronomy-engine": "^2.1.19",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.5"
+  }
+}

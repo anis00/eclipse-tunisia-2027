@@ -1,0 +1,136 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SafetyNotice from '../../../components/SafetyNotice.astro';
+import { LANGS, href, type Lang } from '../../../i18n/config.ts';
+import { fill, t } from '../../../i18n/ui.ts';
+import { GOVERNORATES, climate, cityById, destinations, destinationsVerified } from '../../../lib/data.ts';
+import { colon, formatDate, formatDuration, formatMagnitude, formatNumber, formatObscuration, formatPercent, formatTime } from '../../../lib/format.ts';
+import { DEST_UI } from '../../../lib/destinations-i18n.ts';
+
+export function getStaticPaths() {
+  return LANGS.flatMap((lang) => destinations.map((x) => ({ params: { lang, id: x.id } })));
+}
+const lang = Astro.params.lang as Lang;
+const dest = destinations.find((x) => x.id === Astro.params.id)!;
+const d = t(lang);
+const U = DEST_UI[lang];
+const city = cityById(dest.cityId);
+const e = city.eclipse;
+const total = e.kind === 'total';
+const txt = dest.text[lang];
+const clim = climate.points.find((p) => p.id === dest.id);
+const name = dest.id === 'sousse-monastir' ? `${city.name[lang]} / ${cityById('monastir').name[lang]}` : dest.id === 'djerba' ? (lang === 'ar' ? 'جربة' : 'Djerba') : city.name[lang];
+const title = { en: `Total solar eclipse of 2 August 2027 in ${name}`, fr: `Éclipse solaire totale du 2 août 2027 à ${name}`, ar: `الكسوف الكلي للشمس يوم 2 أوت 2027 في ${name}` }[lang];
+const description = `${txt.summary} ${total ? `${d.calc.duration}: ${formatDuration(e.centralDuration!, lang)}.` : ''}`.trim();
+const rows = [
+  [d.calc.c1, e.c1],
+  [d.calc.c2, e.c2],
+  [d.calc.max, e.max],
+  [d.calc.c3, e.c3],
+  [d.calc.c4, e.c4],
+] as const;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TouristDestination',
+  name,
+  description: txt.description,
+  geo: { '@type': 'GeoCoordinates', latitude: city.lat, longitude: city.lon },
+  containedInPlace: { '@type': 'Country', name: 'Tunisia' },
+};
+---
+
+<Base lang={lang} path={`destinations/${dest.id}`} title={title} description={description} jsonLd={jsonLd}>
+  <div class="page-head">
+    <div class="container">
+      <p class="eyebrow"><a href={href(lang, 'destinations')}>{U.all}</a> · {GOVERNORATES[dest.governorate]?.[lang]}</p>
+      <h1>{name}</h1>
+      <p class="lead">{txt.summary}</p>
+    </div>
+  </div>
+  <div class="container dest-layout">
+    <section class="card" aria-labelledby="astro-title">
+      <h2 id="astro-title">{U.astro}</h2>
+      <p>
+        <span class={`badge ${total ? 'badge-total' : 'badge-partial'}`}>{total ? d.common.total : d.common.partial}</span>
+        {total ? ` ${d.calc.totalityHere}` : ` ${d.calc.noTotality}`}
+      </p>
+      <dl class="res-figures">
+        <div><dt>{d.calc.duration}</dt><dd>{total ? formatDuration(e.centralDuration!, lang) : '—'}</dd></div>
+        <div><dt>{d.calc.magnitude}</dt><dd>{formatMagnitude(e.max!.magnitude, total, lang)}</dd></div>
+        <div><dt>{d.calc.obscuration}</dt><dd>{formatObscuration(e.max!.obscuration, total, lang)}</dd></div>
+        {city.limit && (
+          <div>
+            <dt>{city.limit.inside ? U.limitDist : U.outside}</dt>
+            <dd>{formatNumber(city.limit.km, lang, 0)} {d.common.km}</dd>
+          </div>
+        )}
+      </dl>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">{d.calc.event}</th><th scope="col" class="num">{d.common.localTime}</th><th scope="col" class="num">{d.calc.sun}</th></tr>
+          </thead>
+          <tbody>
+            {rows.filter(([, ev]) => ev).map(([label, ev]) => (
+              <tr><th scope="row">{label}</th><td class="num">{formatTime(ev!.time, lang)}</td><td class="num">{formatNumber(ev!.sun.altitude, lang, 0)}° / {formatNumber(ev!.sun.azimuth, lang, 0)}°</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="meta-line">{U.astroNote} {d.calc.altitude} / {d.calc.azimuth}.</p>
+      <p class="links">
+        <a class="btn btn-sm btn-primary" href={`${href(lang, 'calculator')}?place=${city.id}`}>{U.compute}</a>
+        <a class="btn btn-sm" href={`${href(lang, 'map')}?place=${city.id}`}>{U.seeMap}</a>
+      </p>
+    </section>
+
+    <div class="prose">
+      {dest.advisory && <p class="notice notice-warn">{U.advisory}</p>}
+      <h2>{U.about}</h2>
+      <p>{txt.description}</p>
+      <h2>{U.access}</h2>
+      <p>{txt.access}</p>
+      {dest.airports.length > 0 && (
+        <p><strong>{U.airports}{colon(lang)}</strong> {dest.airports.map((a) => `${a.name[lang]} (${a.iata})`).join(' · ')}</p>
+      )}
+      <h2>{U.nearby}</h2>
+      <p>{txt.nearby}</p>
+      {dest.unesco.length > 0 && (
+        <>
+          <h3>{U.heritage}</h3>
+          <ul>{dest.unesco.map((u) => <li><a href={u.url} rel="noopener">{u.name[lang]}</a></li>)}</ul>
+        </>
+      )}
+      {clim && (
+        <>
+          <h2>{U.climate}</h2>
+          <p>{U.climateText(formatPercent(clim.meanCloudCover / 100, lang, 0), formatPercent(clim.clearShare / 100, lang, 0), `${formatNumber(clim.meanTemperature, lang, 0)} °C`)} <a href={href(lang, 'weather')}>{d.nav.weather}</a></p>
+        </>
+      )}
+      <p class="meta-line">{fill(U.practicalNote, { date: formatDate(destinationsVerified, lang) })}</p>
+      <SafetyNotice lang={lang} />
+    </div>
+  </div>
+</Base>
+
+<style>
+  .dest-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+  .dest-layout .card h2 {
+    margin-top: 0;
+  }
+  .links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 900px) {
+    .dest-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

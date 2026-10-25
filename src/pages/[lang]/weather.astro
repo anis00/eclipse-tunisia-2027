@@ -1,0 +1,179 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sources from '../../components/Sources.astro';
+import { LANGS, href, type Lang } from '../../i18n/config.ts';
+import { t } from '../../i18n/ui.ts';
+import { climate, cityById, destinations } from '../../lib/data.ts';
+import { formatDate, formatNumber, formatPercent } from '../../lib/format.ts';
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const d = t(lang);
+const [y0, y1] = climate.period;
+const rows = climate.points
+  .map((p) => {
+    const dest = destinations.find((x) => x.id === p.id)!;
+    return { ...p, name: cityById(dest.cityId).name[lang], total: cityById(dest.cityId).eclipse.kind === 'total' };
+  })
+  .sort((a, b) => a.meanCloudCover - b.meanCloudCover);
+
+const C = {
+  en: {
+    title: 'Weather and climate for the 2 August 2027 eclipse in Tunisia',
+    description: 'Cloud cover and temperature statistics at the time of the eclipse for the main Tunisian sites, and when real weather forecasts for 2 August 2027 will become available.',
+    h1: 'Weather and climate',
+    lead: 'Will the sky be clear? No one can know yet. But climate statistics show that early August mornings in Tunisia are among the sunniest of the year.',
+    status: `As of ${formatDate(climate.generated, lang)}, no weather forecast exists for 2 August 2027: reliable forecasts are only possible about one to two weeks in advance. This page presents climate statistics, not forecasts.`,
+    climTitle: '1. Climate statistics (historical data)',
+    climIntro: `The table below summarises the total cloud cover and the temperature at 10:00 Tunisian time (09:00 UTC), the time of the eclipse, for each day from 26 July to 9 August over ${y1 - y0 + 1} years (${y0}–${y1}), i.e. ${rows[0]!.samples} values per site.`,
+    cols: ['Site', 'Mean cloud cover', 'Clear sky (≤ 10 %)', 'Cloudy (≥ 50 %)', 'Mean temperature'],
+    method: 'Source: ERA5 reanalysis (Copernicus / ECMWF) via the Open-Meteo historical weather API. ERA5 is a model reconstruction of past weather on a grid of about 25–30 km: it describes the regional climate, not the conditions at a precise spot, and may underestimate thin high clouds and dust haze.',
+    readTitle: 'What these figures mean',
+    read: [
+      'Early August mornings are usually clear everywhere in the path: clear-sky situations (≤ 10 % cloud cover) represent the large majority of days.',
+      'Differences between sites are small. The northern edge of the path and the Sahel coast are slightly cloudier than the south and the inland steppe, consistent with the satellite climatology published by the meteorologist Jay Anderson (Eclipsophile), which finds the lowest morning cloudiness around Sfax and to the south.',
+      'The main atmospheric risk is not cloud but **dust and haze** carried by southerly winds (sirocco), which can veil the sky and reduce contrast.',
+      'Heat: temperatures at 10:00 are already around 30 °C or more, especially inland. Plan shade and water.',
+    ],
+    fcTitle: '2. Forecasts available a few days before',
+    fc: [
+      'From about ten days before the eclipse, global models (for example those of ECMWF) give the first indications of the general weather pattern.',
+      'In the last three days, the forecasts of the National Institute of Meteorology of Tunisia (INM) and dust forecasts (WMO Barcelona Dust Regional Center, up to 72 hours ahead) become the most useful references.',
+      'On the eve and the morning of the eclipse, satellite images help choose between nearby sites.',
+    ],
+    tooEarlyTitle: '3. What cannot be known yet',
+    tooEarly: 'Any "forecast" for 2 August 2027 published today is not scientifically meaningful. This page will be updated as soon as usable forecasts exist.',
+    destLink: 'Compare destinations',
+  },
+  fr: {
+    title: 'Météo et climat pour l’éclipse du 2 août 2027 en Tunisie',
+    description: 'Statistiques de nébulosité et de température à l’heure de l’éclipse pour les principaux sites tunisiens, et date à laquelle de vraies prévisions météo pour le 2 août 2027 seront disponibles.',
+    h1: 'Météo et climat',
+    lead: 'Le ciel sera-t-il dégagé ? Personne ne peut encore le savoir. Mais les statistiques climatiques montrent que les matinées du début août figurent parmi les plus ensoleillées de l’année en Tunisie.',
+    status: `Au ${formatDate(climate.generated, lang)}, aucune prévision météo n’existe pour le 2 août 2027 : des prévisions fiables ne sont possibles qu’une à deux semaines à l’avance. Cette page présente des statistiques climatiques, pas des prévisions.`,
+    climTitle: '1. Statistiques climatiques (données historiques)',
+    climIntro: `Le tableau ci-dessous résume la nébulosité totale et la température à 10 h, heure tunisienne (09 h UTC), soit l’heure de l’éclipse, pour chaque jour du 26 juillet au 9 août sur ${y1 - y0 + 1} ans (${y0}–${y1}), soit ${rows[0]!.samples} valeurs par site.`,
+    cols: ['Site', 'Nébulosité moyenne', 'Ciel clair (≤ 10 %)', 'Nuageux (≥ 50 %)', 'Température moyenne'],
+    method: 'Source : réanalyse ERA5 (Copernicus / CEPMMT) via l’API météo historique d’Open-Meteo. ERA5 est une reconstruction du temps passé par un modèle, sur une grille d’environ 25 à 30 km : elle décrit le climat régional, pas les conditions en un point précis, et peut sous-estimer les nuages fins d’altitude et les voiles de poussière.',
+    readTitle: 'Ce que signifient ces chiffres',
+    read: [
+      'Les matinées du début août sont généralement dégagées partout dans la bande : les situations de ciel clair (nébulosité ≤ 10 %) représentent la grande majorité des jours.',
+      'Les différences entre sites sont faibles. Le bord nord de la bande et la côte du Sahel sont légèrement plus nuageux que le sud et la steppe intérieure, ce qui concorde avec la climatologie satellitaire publiée par le météorologue Jay Anderson (Eclipsophile), selon laquelle la nébulosité matinale est la plus faible autour de Sfax et plus au sud.',
+      'Le principal risque atmosphérique n’est pas le nuage mais **la poussière et la brume sèche** apportées par les vents de sud (sirocco), qui peuvent voiler le ciel et réduire le contraste.',
+      'Chaleur : à 10 h, la température avoisine déjà 30 °C ou plus, surtout à l’intérieur des terres. Prévoyez ombre et eau.',
+    ],
+    fcTitle: '2. Les prévisions disponibles quelques jours avant',
+    fc: [
+      'Environ dix jours avant l’éclipse, les modèles globaux (par exemple ceux du CEPMMT) donnent les premières indications sur la situation générale.',
+      'Dans les trois derniers jours, les prévisions de l’Institut National de la Météorologie de Tunisie (INM) et les prévisions de poussière (centre régional de Barcelone de l’OMM, jusqu’à 72 heures) deviennent les références les plus utiles.',
+      'La veille et le matin de l’éclipse, les images satellitaires aident à choisir entre des sites proches.',
+    ],
+    tooEarlyTitle: '3. Ce que l’on ne peut pas encore savoir',
+    tooEarly: 'Toute « prévision » pour le 2 août 2027 publiée aujourd’hui n’a pas de valeur scientifique. Cette page sera mise à jour dès que des prévisions exploitables existeront.',
+    destLink: 'Comparer les destinations',
+  },
+  ar: {
+    title: 'الطقس والمناخ لكسوف 2 أوت 2027 في تونس',
+    description: 'إحصائيات الغطاء السحابي والحرارة في توقيت الكسوف لأهم المواقع التونسية، ومتى ستتوفر توقعات جوية حقيقية ليوم 2 أوت 2027.',
+    h1: 'الطقس والمناخ',
+    lead: 'هل ستكون السماء صافية؟ لا أحد يستطيع معرفة ذلك بعد. لكن الإحصائيات المناخية تُظهر أن صباحات أوائل أوت من أكثر أيام السنة إشراقًا في تونس.',
+    status: `إلى غاية ${formatDate(climate.generated, lang)}، لا توجد أي توقعات جوية ليوم 2 أوت 2027، إذ لا تكون التوقعات موثوقة إلا قبل أسبوع إلى أسبوعين تقريبًا. تعرض هذه الصفحة إحصائيات مناخية وليست توقعات.`,
+    climTitle: '1. الإحصائيات المناخية (معطيات تاريخية)',
+    climIntro: `يلخص الجدول أدناه الغطاء السحابي الكلي ودرجة الحرارة في الساعة 10:00 بتوقيت تونس (09:00 بالتوقيت العالمي)، أي وقت الكسوف، لكل يوم من 26 جويلية إلى 9 أوت على مدى ${y1 - y0 + 1} سنة (${y0}–${y1})، أي ${rows[0]!.samples} قيمة لكل موقع.`,
+    cols: ['الموقع', 'متوسط الغطاء السحابي', 'سماء صافية (≤ 10٪)', 'غائمة (≥ 50٪)', 'متوسط الحرارة'],
+    method: 'المصدر: إعادة التحليل ERA5 (كوبرنيكوس / المركز الأوروبي للتنبؤات الجوية المتوسطة المدى) عبر واجهة Open-Meteo للطقس التاريخي. ERA5 إعادة بناء للطقس الماضي بواسطة نموذج على شبكة تبلغ دقتها 25 إلى 30 كم تقريبًا، فهي تصف المناخ الجهوي لا الظروف في نقطة محددة، وقد تقلل من تقدير السحب الرقيقة العالية وطبقات الغبار.',
+    readTitle: 'ماذا تعني هذه الأرقام',
+    read: [
+      'تكون صباحات أوائل أوت صافية عادة في كامل النطاق: تمثل حالات السماء الصافية (غطاء سحابي ≤ 10٪) الأغلبية الكبرى من الأيام.',
+      'الفوارق بين المواقع ضعيفة. فالحافة الشمالية للنطاق وسواحل منطقة الساحل أكثر غيومًا بقليل من الجنوب والسهوب الداخلية، وهو ما يتفق مع المناخ المستخلص من الأقمار الصناعية الذي نشره خبير الأرصاد جاي أندرسون (Eclipsophile)، والذي يُظهر أن الغيوم الصباحية تكون في أدنى مستوياتها حول صفاقس وجنوبها.',
+      'الخطر الجوي الرئيسي ليس السحب بل **الغبار والضباب الجاف** اللذان تحملهما الرياح الجنوبية (الشهيلي)، فقد يحجبان السماء جزئيًا ويقللان التباين.',
+      'الحرارة: تقارب درجة الحرارة 30 درجة مئوية أو أكثر في الساعة العاشرة، خاصة في المناطق الداخلية. خطط للظل والماء.',
+    ],
+    fcTitle: '2. التوقعات المتاحة قبل الموعد ببضعة أيام',
+    fc: [
+      'قبل الكسوف بعشرة أيام تقريبًا، تقدم النماذج العالمية (مثل نماذج المركز الأوروبي للتنبؤات الجوية المتوسطة المدى) أولى المؤشرات حول الوضع العام.',
+      'وفي الأيام الثلاثة الأخيرة تصبح توقعات المعهد الوطني للرصد الجوي بتونس وتوقعات الغبار (المركز الجهوي ببرشلونة التابع للمنظمة العالمية للأرصاد الجوية، حتى 72 ساعة مسبقًا) المراجع الأكثر فائدة.',
+      'وعشية الكسوف وصباحه، تساعد صور الأقمار الصناعية على الاختيار بين المواقع المتقاربة.',
+    ],
+    tooEarlyTitle: '3. ما لا يمكن معرفته بعد',
+    tooEarly: 'أي «توقعات» ليوم 2 أوت 2027 تُنشر اليوم لا قيمة علمية لها. سيتم تحديث هذه الصفحة حال توفر توقعات قابلة للاستعمال.',
+    destLink: 'قارن بين الوجهات',
+  },
+}[lang];
+
+const sources = [
+  { title: 'ERA5 hourly data on single levels', publisher: 'Copernicus Climate Change Service (C3S)', url: 'https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels' },
+  { title: 'Historical Weather API', publisher: 'Open-Meteo', url: 'https://open-meteo.com/en/docs/historical-weather-api' },
+  { title: 'Total Solar Eclipse 2027 August 2 — climatology', publisher: 'Eclipsophile (J. Anderson)', url: 'https://eclipsophile.com/tse2027/' },
+  { title: 'Institut National de la Météorologie', publisher: 'INM Tunisie', url: 'https://www.meteo.tn/' },
+  { title: 'WMO Barcelona Dust Regional Center — dust forecasts', publisher: 'AEMET / BSC', url: 'https://dust.aemet.es/' },
+  { title: 'Forecasts', publisher: 'ECMWF', url: 'https://www.ecmwf.int/en/forecasts' },
+];
+const md = (s: string) => s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+---
+
+<Base lang={lang} path="weather" title={C.title} description={C.description}>
+  <div class="page-head">
+    <div class="container">
+      <p class="eyebrow">{d.site.date}</p>
+      <h1>{C.h1}</h1>
+      <p class="lead">{C.lead}</p>
+    </div>
+  </div>
+  <div class="container narrow-wide">
+    <p class="notice notice-warn">{C.status}</p>
+
+    <h2>{C.climTitle}</h2>
+    <p>{C.climIntro}</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            {C.cols.map((c, i) => <th scope="col" class={i ? 'num' : undefined}>{c}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr>
+              <th scope="row">
+                {r.name} {!r.total && <span class="badge badge-partial">{d.common.partial}</span>}
+              </th>
+              <td class="num">{formatPercent(r.meanCloudCover / 100, lang, 1)}</td>
+              <td class="num">{formatPercent(r.clearShare / 100, lang, 0)}</td>
+              <td class="num">{formatPercent(r.cloudyShare / 100, lang, 0)}</td>
+              <td class="num">{formatNumber(r.meanTemperature, lang, 1)} °C</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="meta-line">{C.method}</p>
+
+    <h3>{C.readTitle}</h3>
+    <ul>
+      {C.read.map((p) => <li set:html={md(p)} />)}
+    </ul>
+
+    <h2>{C.fcTitle}</h2>
+    <ul>
+      {C.fc.map((p) => <li>{p}</li>)}
+    </ul>
+
+    <h2>{C.tooEarlyTitle}</h2>
+    <p>{C.tooEarly}</p>
+    <p><a class="btn" href={href(lang, 'destinations')}>{C.destLink}</a></p>
+
+    <Sources lang={lang} sources={sources} />
+  </div>
+</Base>
+
+<style>
+  .narrow-wide {
+    max-width: 920px;
+  }
+  .badge {
+    margin-inline-start: 6px;
+  }
+</style>

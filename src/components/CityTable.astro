@@ -1,0 +1,62 @@
+---
+import { citiesWithEclipse, GOVERNORATES, type CityWithEclipse } from '../lib/data.ts';
+import { formatDuration, formatMagnitude, formatObscuration, formatTime } from '../lib/format.ts';
+import { href, type Lang } from '../i18n/config.ts';
+import { t } from '../i18n/ui.ts';
+
+interface Props {
+  lang: Lang;
+  /** Restrict to these ids (in this order); default: all, sorted by duration then magnitude */
+  ids?: string[];
+  caption?: string;
+  limit?: number;
+}
+const { lang, ids, caption, limit } = Astro.props;
+const d = t(lang);
+let rows: CityWithEclipse[] = citiesWithEclipse();
+if (ids) rows = ids.map((id) => rows.find((r) => r.id === id)!).filter(Boolean);
+else
+  rows = [...rows].sort(
+    (a, b) => (b.eclipse.centralDuration ?? 0) - (a.eclipse.centralDuration ?? 0) || b.eclipse.max!.magnitude - a.eclipse.max!.magnitude,
+  );
+if (limit) rows = rows.slice(0, limit);
+---
+
+<div class="table-wrap">
+  <table>
+    {caption && <caption class="visually-hidden">{caption}</caption>}
+    <thead>
+      <tr>
+        <th scope="col">{d.table.town}</th>
+        <th scope="col">{d.table.governorate}</th>
+        <th scope="col">{d.table.type}</th>
+        <th scope="col" class="num">{d.table.start}</th>
+        <th scope="col" class="num">{d.table.duration}</th>
+        <th scope="col" class="num">{d.table.magnitude}</th>
+        <th scope="col" class="num">{d.table.obscuration}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((c) => {
+        const e = c.eclipse;
+        const total = e.kind === 'total';
+        return (
+          <tr>
+            <th scope="row">
+              <a href={`${href(lang, 'calculator')}?lat=${c.lat}&lon=${c.lon}&place=${c.id}`}>{c.name[lang]}</a>
+            </th>
+            <td>{GOVERNORATES[c.governorateCode]?.[lang]}</td>
+            <td>
+              <span class={`badge ${total ? 'badge-total' : 'badge-partial'}`}>{total ? d.common.total : d.common.partial}</span>
+            </td>
+            <td class="num">{total ? formatTime(e.c2!.time, lang) : '—'}</td>
+            <td class="num">{total ? formatDuration(e.centralDuration!, lang) : '—'}</td>
+            <td class="num">{formatMagnitude(e.max!.magnitude, total, lang)}</td>
+            <td class="num">{formatObscuration(e.max!.obscuration, total, lang)}</td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
+<p class="meta-line">{d.common.localTime} · {d.calc.timeNote}</p>
