@@ -261,7 +261,12 @@ export async function createEclipseMap(opts: MapOptions, cities: GeoJSON.Feature
     });
   }
 
-  map.once('idle', () => (opts.container.dataset.ready = 'true'));
+  map.once('idle', () => {
+    opts.container.dataset.ready = 'true';
+    // Keep the compact attribution collapsed so it does not cover the map on phones.
+    opts.container.querySelector('.maplibregl-ctrl-attrib.maplibregl-compact-show')?.classList.remove('maplibregl-compact-show');
+    opts.container.querySelector('.maplibregl-ctrl-attrib')?.removeAttribute('open');
+  });
 
   // Interaction: click a town or anywhere on the map.
   const interactive = ['city-points', 'dest-points'];
