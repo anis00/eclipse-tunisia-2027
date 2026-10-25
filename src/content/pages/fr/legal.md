@@ -11,7 +11,7 @@ updated: 2026-10-25
 
 ## Hébergement
 
-*À compléter lors de la mise en ligne : nom et adresse de l’hébergeur.*
+GitHub Pages — GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis — <https://pages.github.com/>
 
 ## Objet et responsabilité
 

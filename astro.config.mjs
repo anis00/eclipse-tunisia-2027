@@ -6,10 +6,10 @@ import sitemap from '@astrojs/sitemap';
  * SITE_URL  – public origin, e.g. https://eclipseintunisia.com (no trailing slash)
  * BASE_PATH – sub-path when served from a folder, e.g. /eclipse-tunisia-2027 (default /)
  */
-const site = process.env.SITE_URL ?? 'https://eclipseintunisia.com';
-const base = process.env.BASE_PATH ?? '/';
+const site = process.env.SITE_URL || 'https://eclipseintunisia.com';
+const base = process.env.BASE_PATH || '/';
 // Optional privacy-friendly analytics script origin (see .env.example).
-const analyticsSrc = process.env.PUBLIC_ANALYTICS_SRC;
+const analyticsSrc = process.env.PUBLIC_ANALYTICS_SRC || '';
 const analyticsOrigin = analyticsSrc ? new URL(analyticsSrc).origin : null;
 const tiles = 'https://tiles.openfreemap.org';
 

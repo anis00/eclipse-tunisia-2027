@@ -44,7 +44,7 @@ const name = (x: (typeof items)[number]) => (x.id === 'sousse-monastir' ? `${x.c
     </div>
 
     <h2>{U.compareTitle}</h2>
-    <div class="table-wrap">
+    <div class="table-wrap" tabindex="0">
       <table>
         <thead>
           <tr>{U.cols.map((c, i) => <th scope="col" class={i > 1 ? 'num' : undefined}>{c}</th>)}</tr>

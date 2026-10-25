@@ -25,12 +25,13 @@ const isActive = (p: string) => current.startsWith(href(lang, p));
 
 <header class="site-header">
   <div class="container bar">
-    <a class="brand" href={href(lang)} aria-label={`${d.site.name} — ${d.nav.home}`}>
+    <a class="brand" href={href(lang)}>
       <Logo size={38} />
-      <span class="brand-text ltr" aria-hidden="true">
+      <span class="brand-text ltr" lang="en">
         <span class="brand-name">ECLIPSE 2027</span>
         <span class="brand-sub">TUNISIA</span>
       </span>
+      <span class="visually-hidden"> — {d.nav.home}</span>
     </a>
 
     <nav class="nav-desktop" aria-label={d.site.menu}>
@@ -225,7 +226,11 @@ const isActive = (p: string) => current.startsWith(href(lang, p));
   }
   @media (max-width: 420px) {
     .brand-text {
-      display: none;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
     }
   }
 </style>

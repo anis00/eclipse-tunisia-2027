@@ -1,7 +1,7 @@
 /** Build-time data access: places, destinations, climate, with computed eclipse circumstances. */
-import citiesFile from '../data/cities.json';
-import destinationsFile from '../data/destinations.json';
-import climateFile from '../data/climate.json';
+import citiesFile from '../data/cities.json' with { type: 'json' };
+import destinationsFile from '../data/destinations.json' with { type: 'json' };
+import climateFile from '../data/climate.json' with { type: 'json' };
 import { eclipseAt, limitInfo, type LimitInfo, type LocalCircumstances } from './eclipse/index.ts';
 import type { Lang } from '../i18n/config.ts';
 import { geometryContains, readGeoJSON } from './svgmap.ts';

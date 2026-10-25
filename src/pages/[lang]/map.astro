@@ -107,7 +107,7 @@ const groups = [
 </Base>
 
 <script>
-  import { createEclipseMap } from '../../scripts/map.ts';
+  import type { createEclipseMap } from '../../scripts/map.ts';
   import { renderResults } from '../../scripts/results.ts';
   import { clientI18n } from '../../scripts/i18n-client.ts';
 
@@ -130,7 +130,10 @@ const groups = [
     api?.setPick(p.lat, p.lon, fly);
   }
 
-  createEclipseMap(
+  // MapLibre is large: load it after the page (panel, search, results) is interactive.
+  const idle = (cb: () => void) => ('requestIdleCallback' in window ? requestIdleCallback(cb, { timeout: 1500 }) : setTimeout(cb, 200));
+  const loadMap = () =>
+    import('../../scripts/map.ts').then(({ createEclipseMap }) => createEclipseMap(
     {
       container: document.getElementById('map')!,
       onPick: (p) => pick(p),
@@ -141,17 +144,23 @@ const groups = [
       },
     },
     cities,
-  ).then((m) => {
-    api = m;
-    const q = new URLSearchParams(location.search);
-    const city = cities.features.find((f) => f.properties.id === q.get('place'));
-    if (city) pick({ lat: city.geometry.coordinates[1]!, lon: city.geometry.coordinates[0]!, label: city.properties.name, id: city.properties.id }, true);
-    else if (q.has('lat') && q.has('lon')) {
-      const lat = Number(q.get('lat'));
-      const lon = Number(q.get('lon'));
-      if (Math.abs(lat) <= 90 && Math.abs(lon) <= 180) pick({ lat, lon }, true);
-    }
-  });
+  ));
+
+  // Results for a place given in the URL are shown at once, before the map is ready.
+  const q = new URLSearchParams(location.search);
+  const city = cities.features.find((f) => f.properties.id === q.get('place'));
+  const initial = city
+    ? { lat: city.geometry.coordinates[1]!, lon: city.geometry.coordinates[0]!, label: city.properties.name, id: city.properties.id }
+    : q.has('lat') && q.has('lon') && Math.abs(Number(q.get('lat'))) <= 90 && Math.abs(Number(q.get('lon'))) <= 180
+      ? { lat: Number(q.get('lat')), lon: Number(q.get('lon')) }
+      : null;
+  if (initial) pick(initial);
+  idle(() =>
+    loadMap().then((m) => {
+      api = m;
+      if (initial) api?.setPick(initial.lat, initial.lon, true);
+    }),
+  );
 
   document.querySelectorAll<HTMLInputElement>('[data-layer]').forEach((cb) =>
     cb.addEventListener('change', () => api?.setGroupVisible(cb.dataset.layer!, cb.checked)),
@@ -316,13 +325,16 @@ const groups = [
     border-radius: 50%;
     border: 2px solid var(--turquoise);
   }
+  :global(.maplibregl-ctrl-attrib a) {
+    text-decoration: underline;
+  }
   .sources {
     font-size: 0.8rem;
     color: var(--faint);
   }
   @media (max-width: 960px) {
     .map-app {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       height: auto;
     }
     .map-wrap {

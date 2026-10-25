@@ -11,7 +11,7 @@ updated: 2026-10-25
 
 ## الاستضافة
 
-*يُستكمل عند النشر: اسم مزوّد الاستضافة وعنوانه.*
+GitHub Pages — GitHub, Inc.، ‏88 Colin P. Kelly Jr. Street, San Francisco, CA 94107، الولايات المتحدة — <https://pages.github.com/>
 
 ## الغرض والمسؤولية
 

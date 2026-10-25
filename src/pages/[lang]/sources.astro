@@ -140,7 +140,7 @@ const kindLabel = (k: string) => (k === 'total' ? d.common.total : k === 'partia
 
     <h2 id="validation-nasa">{C.nasaTitle}</h2>
     <p class="narrow">{C.nasaIntro}</p>
-    <div class="table-wrap">
+    <div class="table-wrap" tabindex="0">
       <table>
         <thead><tr>{C.nasaCols.map((c, i) => <th scope="col" class={i > 1 ? 'num' : undefined}>{c}</th>)}</tr></thead>
         <tbody>
@@ -160,7 +160,7 @@ const kindLabel = (k: string) => (k === 'total' ? d.common.total : k === 'partia
 
     <h2 id="validation-cross">{C.crossTitle}</h2>
     <p class="narrow">{C.crossIntro}</p>
-    <div class="table-wrap">
+    <div class="table-wrap" tabindex="0">
       <table>
         <thead><tr>{C.crossCols.map((c, i) => <th scope="col" class={i > 2 ? 'num' : undefined}>{c}</th>)}</tr></thead>
         <tbody>
@@ -191,7 +191,7 @@ const kindLabel = (k: string) => (k === 'total' ? d.common.total : k === 'partia
     </section>
 
     <h2 id="register">{C.regTitle}</h2>
-    <div class="table-wrap">
+    <div class="table-wrap" tabindex="0">
       <table class="register">
         <thead><tr>{C.regCols.map((c) => <th scope="col">{c}</th>)}</tr></thead>
         <tbody>

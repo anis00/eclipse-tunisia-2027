@@ -3,7 +3,7 @@
  * (tests/fixtures/nasa-path-2027.json, ΔT = 76.0 s as used by NASA).
  */
 import { describe, expect, it } from 'vitest';
-import fixtureJson from '../fixtures/nasa-path-2027.json';
+import fixtureJson from '../fixtures/nasa-path-2027.json' with { type: 'json' };
 import { ECLIPSE_2027 } from '../../src/lib/eclipse/elements.ts';
 import { computeLocalCircumstances } from '../../src/lib/eclipse/circumstances.ts';
 import { totalityLimits } from '../../src/lib/eclipse/path.ts';

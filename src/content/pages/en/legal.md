@@ -11,7 +11,7 @@ updated: 2026-10-25
 
 ## Hosting
 
-*To be completed at publication: name and address of the hosting provider.*
+GitHub Pages — GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, United States — <https://pages.github.com/>
 
 ## Purpose and liability
 

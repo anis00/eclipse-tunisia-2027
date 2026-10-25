@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Eclipse in Tunisia 2027 \u2014 scientific, cartographic and travel portal for the total solar eclipse of 2 August 2027.",
+  "description": "Eclipse in Tunisia 2027 — scientific, cartographic and travel portal for the total solar eclipse of 2 August 2027.",
   "license": "MIT",
   "engines": {
     "node": ">=22"
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@axe-core/playwright": "4.14.0",
     "@playwright/test": "^1.64.1",
     "astronomy-engine": "^2.1.19",
     "typescript": "^5.9.3",

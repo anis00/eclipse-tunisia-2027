@@ -56,7 +56,7 @@ export function renderResults(container: HTMLElement, place: Place, compact = fa
     ev
       ? `<tr${strong ? ' class="strong"' : ''}><th scope="row">${label}</th><td class="num">${formatTime(ev.time, lang)}</td>${compact ? '' : `<td class="num">${formatTime(ev.time, lang, 'UTC')}</td>`}<td class="num">${formatNumber(ev.sun.altitude, lang, 0)}° / ${formatNumber(ev.sun.azimuth, lang, 0)}°</td></tr>`
       : '';
-  parts.push(`<div class="table-wrap"><table>
+  parts.push(`<div class="table-wrap" tabindex="0"><table>
     <thead><tr><th scope="col">${d.calc.event}</th><th scope="col" class="num">${d.common.localTime}</th>${compact ? '' : `<th scope="col" class="num">${d.common.utc}</th>`}<th scope="col" class="num">${d.calc.sun}<br><small>${d.calc.altitude} / ${d.calc.azimuth}</small></th></tr></thead>
     <tbody>${row(d.calc.c1, e.c1)}${row(d.calc.c2, e.c2, true)}${row(d.calc.max, e.max, true)}${row(d.calc.c3, e.c3, true)}${row(d.calc.c4, e.c4)}</tbody>
   </table></div>`);

@@ -4,7 +4,7 @@
  *  2. engine vs Astronomy Engine (same ΔT) for reference towns.
  */
 import * as A from 'astronomy-engine';
-import nasa from '../../tests/fixtures/nasa-path-2027.json';
+import nasa from '../../tests/fixtures/nasa-path-2027.json' with { type: 'json' };
 import { ECLIPSE_2027 } from './eclipse/elements.ts';
 import { computeLocalCircumstances } from './eclipse/circumstances.ts';
 import { totalityLimits } from './eclipse/path.ts';

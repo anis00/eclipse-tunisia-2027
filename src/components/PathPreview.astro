@@ -25,10 +25,9 @@ const rtl = lang === 'ar';
 ---
 
 <figure class="preview">
-  <a href={href(lang, 'map')} class="map-link" aria-label={d.common.openMap}>
-    <svg viewBox={`0 0 ${proj.width} ${proj.height}`} role="img" aria-labelledby="pp-title pp-desc">
-      <title id="pp-title">{d.map.umbra}</title>
-      <desc id="pp-desc">{d.map.intro}</desc>
+  <a href={href(lang, 'map')} class="map-link">
+    <span class="visually-hidden">{d.common.openMap}</span>
+    <svg viewBox={`0 0 ${proj.width} ${proj.height}`} aria-hidden="true">
       <defs>
         <clipPath id="pp-clip"><rect width={proj.width} height={proj.height}></rect></clipPath>
         <linearGradient id="pp-umbra" x1="0" x2="0" y1="0" y2="1">

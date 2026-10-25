@@ -65,7 +65,7 @@ const jsonLd = {
           </div>
         )}
       </dl>
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0">
         <table>
           <thead>
             <tr><th scope="col">{d.calc.event}</th><th scope="col" class="num">{d.common.localTime}</th><th scope="col" class="num">{d.calc.sun}</th></tr>
@@ -130,7 +130,7 @@ const jsonLd = {
   }
   @media (max-width: 900px) {
     .dest-layout {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 </style>
